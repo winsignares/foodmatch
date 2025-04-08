@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: flaskapp  # Corrected MYSQL_DATABSE to MYSQL_DATABASE
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  
+
+  app:
+    build: .
+    container_name: flask_app
+    restart: always
+    depends_on:
+      - db
+    environment:  # Corrected 'enviroment' to 'environment'
+      - DB_HOST=db  # Removed unnecessary '='
+      - DB_USER=root  # Removed unnecessary '='
+      - DB_PASSWORD=password  # Removed unnecessary '='
+      - DB_NAME=flaskapp  # Removed unnecessary '='
+    ports:
+      - "5000:5000"
+
+volumes:
+  mysql_data:
