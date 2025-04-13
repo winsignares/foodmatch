@@ -5,7 +5,7 @@ services:
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: SIfoodmatch
+      MYSQL_DATABASE: foodmatch
       MYSQL_ROOT_HOST: '%'
     restart: always
     ports:
@@ -15,15 +15,15 @@ services:
 
   app:
     build: .
-    container_name: SIfoodmatch
+    container_name: foodmatch
     restart: always
     depends_on:
       - db
-    environment:  # Corrected 'enviroment' to 'environment'
+    environment:
       - DB_HOST=db  # Removed unnecessary '='
       - DB_USER=root  # Removed unnecessary '='
       - DB_PASSWORD=password  # Removed unnecessary '='
-      - DB_NAME=flaskapp  # Removed unnecessary '='
+      - DB_NAME=foodmatch  # Removed unnecessary '='
     ports:
       - "5000:5000"
 

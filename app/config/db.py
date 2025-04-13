@@ -7,7 +7,7 @@ app = Flask(__name__)
 user = "root"
 password = "password"
 nombrecontainer = "mysql_container"
-namedb = "SIFoodMatch"
+namedb = "foodmatch"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{user}:{password}@{nombrecontainer}/{namedb}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
