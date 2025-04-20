@@ -1,9 +1,13 @@
 from app.config.db import create_app, db
-from app.controllers.usuario_controller import usuario_bp
+
 
 app = create_app()
 
+from app.controllers.usuario_controller import usuario_bp
+from app.controllers.ingrediente_controller import ingrediente_bp
+
 app.register_blueprint(usuario_bp)
+app.register_blueprint(ingrediente_bp)
 
 @app.route("/")
 def index():

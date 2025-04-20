@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.services.usuario_service import UsuarioService
 
-usuario_bp = Blueprint('usuario_bp', __name__, url_prefix='/usuarios')
+usuario_bp = Blueprint('usuario_bp', __name__, url_prefix='/api/usuarios')
 
 @usuario_bp.route('/', methods=['POST'])
 def registrar_usuario():
