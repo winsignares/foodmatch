@@ -11,6 +11,7 @@ class Rol(db.Model):
         self.descripcion = descripcion
 
 
+
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
