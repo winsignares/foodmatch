@@ -1,4 +1,4 @@
-from app.config.db import db
+from app.config.db import db, ma
 
 class Rol(db.Model):
     __tablename__ = 'roles'
@@ -35,3 +35,13 @@ class Usuario(db.Model):
         self.username = username
         self.contrasenia = contrasenia
         self.id_rol = id_rol
+
+
+class RolSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'rol', 'descripcion')
+
+
+class UsuarioSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'nombre', 'apellido', 'edad', 'telefono', 'email', 'username', 'id_rol')
