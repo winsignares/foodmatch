@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodMatch - El Match Perfecto para tu próxima receta</title>
+  <meta name="description" content="Descubre recetas deliciosas basadas en los ingredientes que ya tienes en casa">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../static/css/styles.css">
+  
+  
+</head>
+<body>
+  <div class="food-match">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-success-subtle sticky-top">
+      <div class="container">
+        <a href="index.html" class="navbar-brand d-flex align-items-center">
+          <img src="../static/resources/logo.png" alt="FoodMatch Logo" class="me-2">
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link active fw-medium text-success">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="recetas.html" class="nav-link text-secondary fw-medium">Recetas populares</a>
+            </li>
+            <li class="nav-item">
+              <a href="nosotros.html" class="nav-link text-secondary fw-medium">Sobre Nosotros</a>
+            </li>
+          </ul>
+          
+          <a href="login.html" class="btn btn-success text-black rounded-pill px-4">Ingresar</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero position-relative">
+      <div class="hero-image-container">
+        <img src="../static/resources/image-30.png" alt="Hero Background" class="hero-image">
+        <div class="hero-overlay"></div>
+      </div>
+      
+      <div class="container position-relative">
+        <div class="row min-vh-75 align-items-center">
+          <div class="col-lg-8 col-md-10 mx-auto text-center text-white py-5">
+            <h1 class="display-4 fw-bold mb-4">El Match Perfecto para tu próxima receta</h1>
+            <a href="login.html" class="btn btn-warning btn-lg px-4 py-2 fw-semibold mb-4 text-white btn-search">
+              Busca tu Receta
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-12 mx-auto text-center">
+            <p class="lead">
+              En FoodMatch, creemos que cocinar debe ser fácil, saludable y accesible para todos. 
+              <br>Nuestra plataforma te ayuda a descubrir recetas deliciosas basadas en los ingredientes 
+              que ya tienes en casa, optimizando tu tiempo y reduciendo el desperdicio de alimentos.
+              <br>
+             Únete a nosotros y transforma la manera en que cocinas cada día. 
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 bg-light">
+      <div class="container">
+        <h2 class="fw-bold mb-4">Recetas Populares</h2>
+        
+        <div class="row g-4">
+          <!-- Recipe Card 1 -->
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card h-100 border-0 shadow-sm recipe-card">
+              <div class="position-relative">
+                <img src="../static/resources/pasta-carb-10.png" alt="Pasta Carbonara 1" class="card-img-top">
+                <button class="btn btn-sm position-absolute top-0 end-0 m-2 rounded-circle p-1" aria-label="Guardar receta">
+                  <img src="../static/resources/bookmark-plus-fill0.svg" alt="Guardar" width="18" height="18">
+                </button>
+              </div>
+              
+              <div class="card-body bg-success-subtle">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="card-title mb-0">Pasta Carbonara</h5>
+                  <a href="verRecetas.html" class="btn btn-warning btn-sm">Ver</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recipe Card 2 -->
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card h-100 border-0 shadow-sm recipe-card">
+              <div class="position-relative">
+                <img src="../static/resources/pasta-carb-10.png" alt="Pasta Carbonara 2" class="card-img-top">
+                <button class="btn btn-sm position-absolute top-0 end-0 m-2 rounded-circle p-1" aria-label="Guardar receta">
+                  <img src="../static/resources/bookmark-plus-fill0.svg" alt="Guardar" width="18" height="18">
+                </button>
+              </div>
+              
+              <div class="card-body bg-success-subtle">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="card-title mb-0">Pasta Carbonara</h5>
+                  <a href="receta2.html" class="btn btn-warning btn-sm">Ver</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recipe Card 3 -->
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card h-100 border-0 shadow-sm recipe-card">
+              <div class="position-relative">
+                <img src="../static/resources/pasta-carb-10.png" alt="Pasta Carbonara 3" class="card-img-top">
+                <button class="btn btn-sm position-absolute top-0 end-0 m-2 rounded-circle p-1" aria-label="Guardar receta">
+                  <img src="../static/resources/bookmark-plus-fill0.svg" alt="Guardar" width="18" height="18">
+                </button>
+              </div>
+              
+              <div class="card-body bg-success-subtle">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="card-title mb-0">Pasta Carbonara</h5>
+                  <a href="receta3.html" class="btn btn-warning btn-sm">Ver</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recipe Card 4 -->
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card h-100 border-0 shadow-sm recipe-card">
+              <div class="position-relative">
+                <img src="../static/resources/pasta-carb-10.png" alt="Pasta Carbonara 4" class="card-img-top">
+                <button class="btn btn-sm position-absolute top-0 end-0 m-2 rounded-circle p-1" aria-label="Guardar receta">
+                  <img src="../static/resources/bookmark-plus-fill0.svg" alt="Guardar" width="18" height="18">
+                </button>
+              </div>
+              
+              <div class="card-body bg-success-subtle">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="card-title mb-0">Pasta Carbonara</h5>
+                  <a href="receta4.html" class="btn btn-warning btn-sm">Ver</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center mt-4">
+          <a href="recetas.html" class="btn btn-outline-success btn-lg">Ver más recetas</a>
+        </div>
+      </div>
+    </section>
+
+   
+
+    <!-- Footer -->
+    <footer class="bg-success-subtle py-4">
+      <div class="container">
+        <div class="text-center mb-3">
+          <h5 class="mb-2">FoodMatch</h5>
+          <p>Contacto: <a href="/cdn-cgi/l/email-protection#23404c4d574240574c63454c4c474e4257404b0d404c4e" class="text-decoration-none"><span class="__cf_email__" data-cfemail="e88a87869c898b9c87a88e87878c85899c8b80c68b8785"> Foodmatch@gmail.com</span></a></p>
+        </div>
+        
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <ul class="nav justify-content-center mb-3">
+              <li class="nav-item">
+                <a href="index.html" class="nav-link text-dark px-3">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="recetas.html" class="nav-link text-dark px-3">Recetas</a>
+              </li>
+              <li class="nav-item">
+                <a href="nosotros.html" class="nav-link text-dark px-3">Sobre Nosotros</a>
+              </li>
+              <li class="nav-item">
+                <a href="terminos.html" class="nav-link text-dark px-3">Términos</a>
+              </li>
+              <li class="nav-item">
+                <a href="privacidad.html" class="nav-link text-dark px-3">Privacidad</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="border-top pt-3">
+          <p class="text-center mb-0">© 2025 FoodMatch. Reservados todos los derechos</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+  <!-- Custom JavaScript -->
+  <script src="../js/script.js"></script>
+</body>
+</html>
+
