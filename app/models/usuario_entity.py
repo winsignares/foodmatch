@@ -1,3 +1,5 @@
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+
 from app.config.db import db, ma
 
 class Rol(db.Model):
@@ -37,11 +39,15 @@ class Usuario(db.Model):
         self.id_rol = id_rol
 
 
-class RolSchema(ma.Schema):
+class RolSchema(SQLAlchemyAutoSchema):
     class Meta:
-        fields = ('id', 'rol', 'descripcion')
+        model = Rol
+        load_instance = True
 
 
-class UsuarioSchema(ma.Schema):
+class UsuarioSchema(SQLAlchemyAutoSchema):
     class Meta:
-        fields = ('id', 'nombre', 'apellido', 'edad', 'telefono', 'email', 'username', 'id_rol')
+        model = Usuario
+        load_instance = True
+        include_fk = True
+        exclude = ('contrasenia',)

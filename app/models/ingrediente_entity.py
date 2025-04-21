@@ -2,7 +2,7 @@
 
 from app.config.db import db
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy.fields import Nested
+
 
 class Origen(db.Model):
     __tablename__ = 'origenes'
@@ -40,4 +40,4 @@ class IngredienteSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Ingrediente
         load_instance = True
-        include_fk = True  # Importante para que se incluya id_origen
+        include_fk = True
