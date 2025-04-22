@@ -49,3 +49,12 @@ def actualizar_usuario(id, data):
         return jsonify({"message": "Usuario actualizado exitosamente"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@usuario_bp.route('/', methods=['GET'])
+def obtener_lista_usuarios():
+    try:
+        usuario_service = UsuarioService()
+        usuarios = usuario_service.obtener_lista_usuarios()
+        return jsonify(usuarios), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400

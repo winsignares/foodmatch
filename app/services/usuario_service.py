@@ -43,3 +43,7 @@ class UsuarioService:
 
     def actualizar_usuario(self, id, data):
         self.actualizar_usuario(id, data)
+
+    def obtener_lista_usuarios(self):
+        resultado_consulta = self.usuario_repository.obtener_lista_usuarios()
+        return self.usuarios_schema.dump(resultado_consulta)

@@ -40,3 +40,6 @@ class UsuarioRepository:
         usuario_existente.email = usuario_nuevo.email
         usuario_existente.username = usuario_nuevo.username
         db.session.commit()
+
+    def obtener_lista_usuarios(self):
+        return Usuario.query.all()

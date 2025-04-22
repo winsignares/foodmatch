@@ -13,5 +13,9 @@ app.register_blueprint(ingrediente_bp)
 def index():
     return render_template("index.html")
 
+@app.route("/register")
+def register():
+    return render_template("Register.html")
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000, host="0.0.0.0")
