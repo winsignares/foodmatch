@@ -36,6 +36,7 @@ class UsuarioService:
 
     def obtener_usuario_por_id(self, id):
         resultado_consulta = self.usuario_repository.obtener_usuario_por_id(id)
+
         return self.usuario_schema.dump(resultado_consulta)
 
     def eliminar_usuario(self, id):

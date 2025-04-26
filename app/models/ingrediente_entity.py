@@ -28,7 +28,6 @@ class Ingrediente(db.Model):
         self.id_origen = id_origen
 
 
-# Esquemas automáticos
 
 class OrigenSchema(SQLAlchemyAutoSchema):
     class Meta:

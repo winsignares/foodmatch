@@ -1,6 +1,9 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 from app.config.db import db, ma
+from app.models.ingrediente_entity import Ingrediente
+from app.models.associate_tables import usuario_ingrediente, usuario_receta
+from app.models.recetas_entity import Receta
 
 class Rol(db.Model):
     __tablename__ = 'roles'
@@ -26,6 +29,8 @@ class Usuario(db.Model):
     contrasenia = db.Column(db.String(255), nullable=False)
     id_rol = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
 
+    ingredientes = db.relationship(Ingrediente, secondary=usuario_ingrediente, backref=db.backref('usuarios', lazy='dynamic'))
+    recetas= db.relationship(Receta, secondary=usuario_receta, backref=db.backref('usuarios', lazy='dynamic'))
     rol = db.relationship('Rol', backref=db.backref('usuarios', lazy=True))
 
     def __init__(self, nombre, apellido, edad, telefono, email, username, contrasenia, id_rol):
