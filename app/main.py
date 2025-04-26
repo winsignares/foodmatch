@@ -5,9 +5,11 @@ app = create_app()
 
 from app.controllers.usuario_controller import usuario_bp
 from app.controllers.ingrediente_controller import ingrediente_bp
+from app.controllers.categoria_controller import categoria_bp
 
 app.register_blueprint(usuario_bp)
 app.register_blueprint(ingrediente_bp)
+app.register_blueprint(categoria_bp)
 
 @app.route("/")
 def index():

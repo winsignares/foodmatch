@@ -20,7 +20,7 @@ class UsuarioService:
             email=data['email'],
             username=data['username'],
             contrasenia=bcrypt.hashpw(data['contrasenia'].encode('utf-8'), salt),
-            id_rol=data['id_rol']
+            id_rol=2 #Rol de usuario por defecto
         )
         self.usuario_repository.crear_usuario(nuevo_usuario)
 
@@ -43,7 +43,17 @@ class UsuarioService:
         self.usuario_repository.eliminar_usuario(id)
 
     def actualizar_usuario(self, id, data):
-        self.actualizar_usuario(id, data)
+        usuario_nuevo = Usuario(
+            nombre=data['nombre'],
+            apellido=data['apellido'],
+            edad=data['edad'],
+            telefono=data['telefono'],
+            email=data['email'],
+            username=data['username'],
+            contrasenia="",
+            id_rol=""
+        )
+        self.usuario_repository.actualizar_usuario(id, usuario_nuevo)
 
     def obtener_lista_usuarios(self):
         resultado_consulta = self.usuario_repository.obtener_lista_usuarios()

@@ -1,5 +1,7 @@
 from app.config.db import db
 from app.models.ingrediente_entity import Ingrediente, Origen, OrigenSchema, IngredienteSchema
+from app.models.usuario_entity import Usuario
+
 
 class IngredienteRepository:
 
@@ -35,3 +37,9 @@ class IngredienteRepository:
 
         db.session.delete(ingrediente_existente)
         db.session.commit()
+
+    def obtener_ingredientes_por_usuario(self, id_usuario):
+        usuario = Usuario.query.get(id_usuario)
+        if not usuario:
+            raise ValueError("Usuario no encontrado")
+        return usuario.ingredientes

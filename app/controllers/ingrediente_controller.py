@@ -49,3 +49,12 @@ def eliminar_ingrediente(id):
         return jsonify({"message": "Ingrediente eliminado exitosamente"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@ingrediente_bp.route('/usuario/<int:id_usuario>', methods=['GET'])
+def obtener_ingredientes_por_usuario(id_usuario):
+    try:
+        ingrediente_service = IngredienteService()
+        ingredientes = ingrediente_service.obtener_ingredientes_por_usuario(id_usuario)
+        return jsonify(ingredientes), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400

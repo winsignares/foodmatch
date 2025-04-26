@@ -20,4 +20,26 @@ def create_app():
     db.init_app(app)
     ma.init_app(app)
 
+    with app.app_context():
+
+        from app.models.usuario_entity import Usuario, Rol
+        from app.models.ingrediente_entity import Ingrediente, Origen
+        from app.models.recetas_entity import Receta
+        from app.models.categoria_entity import Categoria
+
+        db.create_all()
+
+        if not Rol.query.first():
+            rol_admin = Rol(rol="Admin", descripcion="Administrador del sistema")
+            rol_usuario = Rol(rol="Usuario", descripcion="Usuario estándar")
+            db.session.add_all([rol_admin, rol_usuario])
+            db.session.commit()
+
+        if not Origen.query.first():
+            origen1 = Origen(nombre="Animal", descripcion="Origen animal")
+            origen2 = Origen(nombre="Vegetal", descripcion="Origen vegetal")
+            origen3 = Origen(nombre="Mineral", descripcion="Origen mineral")
+            db.session.add_all([origen1, origen2, origen3])
+            db.session.commit()
+
     return app

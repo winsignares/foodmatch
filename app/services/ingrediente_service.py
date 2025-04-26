@@ -35,3 +35,7 @@ class IngredienteService:
 
     def eliminar_ingrediente(self, id):
         self.ingrediente_repository.eliminar_ingrediente(id)
+
+    def obtener_ingredientes_por_usuario(self, id_usuario):
+        ingredientes = self.ingrediente_repository.obtener_ingredientes_por_usuario(id_usuario)
+        return self.ingredientes_schema.dump(ingredientes)

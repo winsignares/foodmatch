@@ -42,8 +42,9 @@ def eliminar_usuario(id):
         return jsonify({"error": str(e)}), 400
 
 @usuario_bp.route('/<int:id>', methods=['PUT'])
-def actualizar_usuario(id, data):
+def actualizar_usuario(id):
     try:
+        data = request.get_json()
         usuario_service = UsuarioService()
         usuario_service.actualizar_usuario(id, data)
         return jsonify({"message": "Usuario actualizado exitosamente"}), 200
