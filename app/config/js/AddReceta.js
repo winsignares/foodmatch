@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Referencias a elementos del DOM
+document.addEventListener('DOMContentLoaded', () => {
+
     const addRecipeForm = document.getElementById('add-recipe-form');
     const recipeTitle = document.getElementById('recipe-title');
     const recipeIngredients = document.getElementById('recipe-ingredients');
@@ -10,30 +10,47 @@ document.addEventListener('DOMContentLoaded', function() {
     const ingredientTagsContainer = document.getElementById('ingredient-tags-container');
     const tagsContainer = document.getElementById('tags-container');
     const imagePreview = document.getElementById('image-preview');
-    const sidebarCollapse = document.getElementById('sidebarCollapse');
 
-     // Toggle para el sidebar
-     sidebarCollapse.addEventListener('click', function() {
+    // Verificar si es dispositivo móvil
+    const isMobile = window.innerWidth < 768;
+    
+    // Toggle sidebar
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
+    const body = document.body;
+    
+    // En dispositivos móviles, asegurarse de que el sidebar esté cerrado por defecto
+    if (isMobile) {
+        sidebar.classList.remove('active');
+        content.classList.remove('active');
+    }
+    
+    document.getElementById('sidebarCollapse').addEventListener('click', () => {
         sidebar.classList.toggle('active');
         content.classList.toggle('active');
         
-        // En móvil, controlar la posición del sidebar
-        if (window.innerWidth <= 768) {
-            if (sidebar.style.marginLeft === '-250px' || sidebar.style.marginLeft === '') {
-                sidebar.style.marginLeft = '0';
-                // Añadir overlay para cerrar el sidebar al hacer clic fuera
-                addOverlay();
+        // En móviles, añadir clase al body para oscurecer el fondo cuando el sidebar está abierto
+        if (isMobile) {
+            if (sidebar.classList.contains('active')) {
+                body.classList.add('sidebar-active');
             } else {
-                sidebar.style.marginLeft = '-250px';
-                // Remover overlay
-                removeOverlay();
+                body.classList.remove('sidebar-active');
             }
         }
     });
     
-    // API URL base
-    const API_BASE_URL = '/api';
-    
+    // Cerrar sidebar al hacer clic fuera de él en dispositivos móviles
+    document.addEventListener('click', (e) => {
+        if (isMobile && 
+            sidebar.classList.contains('active') && 
+            !sidebar.contains(e.target) && 
+            !document.getElementById('sidebarCollapse').contains(e.target)) {
+            sidebar.classList.remove('active');
+            body.classList.remove('sidebar-active');
+        }
+    });
+
+
     // Función para añadir ingredientes
     addIngredientBtn.addEventListener('click', function() {
         const ingredientText = recipeIngredients.value.trim();
@@ -222,4 +239,5 @@ document.addEventListener('DOMContentLoaded', function() {
             addIngredientBtn.click();
         }
     });
-});
+    
+})

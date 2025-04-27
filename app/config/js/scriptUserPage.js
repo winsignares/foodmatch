@@ -97,44 +97,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     id: 1,
                     title: 'Tacos al Pastor',
-                    image: '/placeholder.svg?height=200&width=350',
+                    image: '../static/resources/pasta-carb-10.png',
                     category: 'Mexicana',
-                    rating: 4.5
+                   
                 },
                 {
                     id: 2,
                     title: 'Pizza Margherita',
-                    image: '/placeholder.svg?height=200&width=350',
+                    image: '../static/resources/pasta-carb-10.png',
                     category: 'Italiana',
-                    rating: 4.8
+                    
                 },
                 {
                     id: 3,
                     title: 'Pad Thai',
-                    image: '/placeholder.svg?height=200&width=350',
+                    image: '../static/resources/pasta-carb-10.png',
                     category: 'Asiática',
-                    rating: 4.3
+                    
                 },
                 {
                     id: 4,
                     title: 'Ensalada César',
-                    image: '/placeholder.svg?height=200&width=350',
+                    image: '../static/resources/pasta-carb-10.png',
                     category: 'Vegetariana',
-                    rating: 4.0
+                    
                 },
                 {
                     id: 5,
                     title: 'Paella Valenciana',
-                    image: '/placeholder.svg?height=200&width=350',
+                    image: '../static/resources/pasta-carb-10.png',
                     category: 'Española',
-                    rating: 4.7
+                    
                 },
                 {
                     id: 6,
                     title: 'Sushi Variado',
-                    image: '/placeholder.svg?height=200&width=350',
+                    image: '../static/resources/pasta-carb-10.png',
                     category: 'Asiática',
-                    rating: 4.9
+                    
                 }
             ];
             
@@ -151,25 +151,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 recipeCard.querySelector('.card-title').textContent = recipe.title;
                 recipeCard.querySelector('.badge').textContent = recipe.category;
                 
-                // Generar estrellas para la calificación
-                const ratingContainer = recipeCard.querySelector('.rating');
-                const fullStars = Math.floor(recipe.rating);
-                const hasHalfStar = recipe.rating % 1 >= 0.5;
+               
                 
-                for (let i = 0; i < 5; i++) {
-                    const star = document.createElement('i');
-                    if (i < fullStars) {
-                        star.className = 'fas fa-star';
-                    } else if (i === fullStars && hasHalfStar) {
-                        star.className = 'fas fa-star-half-alt';
-                    } else {
-                        star.className = 'far fa-star';
-                    }
-                    ratingContainer.appendChild(star);
-                }
                 
                 // Añadir enlace a la receta
-                recipeCard.querySelector('.btn-ver').href = `receta.html?id=${recipe.id}`;
+                recipeCard.querySelector('.btn-ver').href = `verReceta.html?id=${recipe.id}`;
                 
                 // Añadir la tarjeta al contenedor
                 recipesRow.appendChild(recipeCard);

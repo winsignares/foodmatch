@@ -16,13 +16,13 @@
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <img src="../static/resources/logo.png" alt="FoodMatch Logo" class="me-2">
+                <img src="../static/resources/logo.png" alt="FoodMatch Logo" class="logo">
             </div>
             
             <ul class="list-unstyled components">
                 <!-- Top section -->
                 <li class="top-section">
-                    <a href="#" id="user-profile-link"><i class="fas fa-user"></i> <span class="menu-text">Usuario</span></a>
+                    <a href="Profile.html" id="user-profile-link"><i class="fas fa-user"></i> <span class="menu-text">Usuario</span></a>
                 </li>
                 
                 <!-- Middle section -->
@@ -32,13 +32,16 @@
                 <li class="middle-section">
                     <a href="RecetasFavoritas.html"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas Favoritas</span></a>
                 </li>
+                <li class="middle-section ">
+                    <a href="MisIngredientes.html"><i class="fas fa-carrot"></i> <span class="menu-text">Mis Ingredientes</span></a>
+                </li>
                 <li class="middle-section">
                     <a href="ProponerReceta.html"><i class="fas fa-plus"></i> <span class="menu-text">Proponer Receta</span></a>
                 </li>
                 
                 <!-- Bottom section -->
                 <li class="bottom-section">
-                    <a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> <span class="menu-text">Cerrar Sesión</span></a>
+                    <a href="/index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> <span class="menu-text">Cerrar Sesión</span></a>
                 </li>
             </ul>
         </nav>
@@ -55,13 +58,13 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="index.html">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">Recetas populares</a>
+                                <a class="nav-link active" href="index.html">Recetas populares</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Sobre Nosotros</a>
+                                <a class="nav-link" href="index.html">Sobre Nosotros</a>
                             </li>
                         </ul>
                     </div>
@@ -94,7 +97,7 @@
             <!-- Recipe Cards Container -->
             <div class="container recipe-container" id="recipe-container">
                 <div class="row" id="recipes-row">
-                    <!-- Las tarjetas de recetas se cargarán dinámicamente desde el backend -->
+         
                     <div class="col-12 text-center py-5" id="loading-placeholder">
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Cargando...</span>
@@ -112,9 +115,9 @@
                                 <h5 class="card-title"></h5>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="badge bg-mexico"></span>
-                                    <div class="rating"></div>
+                                    
                                 </div>
-                                <a href="#" class="btn btn-ver mt-2">Ver</a>
+                                <a href="VerReceta.html" class="btn btn-ver mt-2">Ver</a>
                             </div>
                         </div>
                     </div>
@@ -135,7 +138,7 @@
             <footer class="footer mt-5 py-4 text-center">
                 <div class="container">
                     <p class="mb-1">FoodMatch</p>
-                    <p class="mb-1">Contacto: foodmatch69@gmail.com</p>
+                    <p class="mb-1">Contacto: Foodmatch@gmail.com</p>
                     <p class="mb-0">© 2025 FoodMatch. Reservados todos los derechos</p>
                 </div>
             </footer>
