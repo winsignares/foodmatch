@@ -4,7 +4,7 @@ usuario_ingrediente = db.Table(
     'usuario_ingrediente',
     db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
     db.Column('ingrediente_id', db.Integer, db.ForeignKey('ingredientes.id'), primary_key=True)
-)
+)   
 
 receta_ingrediente = db.Table(
     'receta_ingrediente',

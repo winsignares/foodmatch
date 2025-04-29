@@ -58,3 +58,23 @@ def obtener_ingredientes_por_usuario(id_usuario):
         return jsonify(ingredientes), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@ingrediente_bp.route('/favoritos/', methods=['POST'])
+def guardar_ingrediente_en_favoritos():
+    try:
+        data = request.get_json()
+        ingrediente_service = IngredienteService()
+        ingrediente_service.guardar_ingrediente_en_favoritos(data)
+        return jsonify({"message": "Ingrediente guardado en favoritos exitosamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@ingrediente_bp.route('/favoritos/', methods=['DELETE'])
+def eliminar_ingrediente_en_favoritos():
+    try:
+        data = request.get_json()
+        ingrediente_service = IngredienteService()
+        ingrediente_service.eliminar_ingrediente_en_favoritos(data)
+        return jsonify({"message": "Ingrediente eliminado de favoritos exitosamente"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400

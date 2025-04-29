@@ -43,3 +43,31 @@ class IngredienteRepository:
         if not usuario:
             raise ValueError("Usuario no encontrado")
         return usuario.ingredientes
+
+    def guardar_ingrediente_en_favoritos(self, id_ingrediente, id_usuario):
+        ingrediente = Ingrediente.query.get(id_ingrediente)
+        if not ingrediente:
+            raise ValueError("Ingrediente no encontrado")
+
+        usuario = Usuario.query.get(id_usuario)
+        if not usuario:
+            raise ValueError("Usuario no encontrado")
+
+        usuario.ingredientes.append(ingrediente)
+        db.session.commit()
+
+    def eliminar_ingrediente_en_favoritos(self, id_usuario, id_ingrediente):
+        usuario = Usuario.query.get(id_usuario)
+
+        if not usuario:
+            raise ValueError("Usuario no encontrado")
+
+        ingrediente = Ingrediente.query.get(id_ingrediente)
+        if not ingrediente:
+            raise ValueError("Ingrediente no encontrado")
+
+        if ingrediente not in usuario.ingredientes:
+            raise ValueError("Ingrediente no encontrado")
+
+        usuario.ingredientes.remove(ingrediente)
+        db.session.commit()

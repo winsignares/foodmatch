@@ -39,3 +39,15 @@ class IngredienteService:
     def obtener_ingredientes_por_usuario(self, id_usuario):
         ingredientes = self.ingrediente_repository.obtener_ingredientes_por_usuario(id_usuario)
         return self.ingredientes_schema.dump(ingredientes)
+
+    def guardar_ingrediente_en_favoritos(self, data):
+        id_usuario = data['id_usuario']
+        id_ingrediente = data['id_ingrediente']
+        self.ingrediente_repository.guardar_ingrediente_en_favoritos(id_ingrediente, id_usuario)
+
+    def eliminar_ingrediente_en_favoritos(self, data):
+
+        id_usuario = data['id_usuario']
+        id_ingrediente = data['id_ingrediente']
+
+        self.ingrediente_repository.eliminar_ingrediente_en_favoritos(id_usuario, id_ingrediente)

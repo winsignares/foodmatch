@@ -7,7 +7,10 @@ class CategoriaRepository:
         db.session.add(categoria)
         db.session.commit()
 
-    def eliminar_categoria(self, categoria):
+    def eliminar_categoria(self, id):
+        categoria = Categoria.query.get(id)
+        if not categoria:
+            raise ValueError("Categoria no encontrada")
         db.session.delete(categoria)
         db.session.commit()
 
