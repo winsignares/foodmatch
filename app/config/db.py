@@ -41,6 +41,7 @@ def create_app():
             origen1 = Origen(nombre="Animal", descripcion="Origen animal")
             origen2 = Origen(nombre="Vegetal", descripcion="Origen vegetal")
             origen3 = Origen(nombre="Mineral", descripcion="Origen mineral")
+            origen4 = Origen(nombre="Otro", descripcion="Otro Origen")
             db.session.add_all([origen1, origen2, origen3])
             db.session.commit()
 
