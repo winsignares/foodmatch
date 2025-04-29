@@ -7,7 +7,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 class Origen(db.Model):
     __tablename__ = 'origenes'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    nombre = db.Column(db.String(255), nullable=False)
+    nombre = db.Column(db.String(255), nullable=False, unique=True)
     descripcion = db.Column(db.String(255), nullable=False)
 
     def __init__(self, nombre, descripcion):
@@ -18,7 +18,7 @@ class Origen(db.Model):
 class Ingrediente(db.Model):
     __tablename__ = 'ingredientes'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    nombre = db.Column(db.String(255), nullable=False)
+    nombre = db.Column(db.String(255), nullable=False, unique=True)
     id_origen = db.Column(db.Integer, db.ForeignKey('origenes.id'), nullable=False)
 
     origen = db.relationship('Origen', backref=db.backref('ingredientes', lazy=True))

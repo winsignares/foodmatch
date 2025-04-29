@@ -8,14 +8,12 @@ from app.models.recetas_entity import Receta
 class Rol(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    rol = db.Column(db.String(255), nullable=False)
+    rol = db.Column(db.String(255), nullable=False, unique=True)
     descripcion = db.Column(db.String(255), nullable=False)
 
     def __init__(self, rol, descripcion):
         self.rol = rol
         self.descripcion = descripcion
-
-
 
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
@@ -23,9 +21,9 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(255), nullable=False)
     apellido = db.Column(db.String(255), nullable=False)
     edad = db.Column(db.Integer, nullable=False)
-    telefono = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False)
-    username = db.Column(db.String(255), nullable=False)
+    telefono = db.Column(db.String(255), nullable=False, unique=True)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    username = db.Column(db.String(255), nullable=False, unique=True)
     contrasenia = db.Column(db.String(255), nullable=False)
     id_rol = db.Column(db.Integer, db.ForeignKey('roles.id'), nullable=False)
 

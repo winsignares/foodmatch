@@ -4,7 +4,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 class Categoria(db.Model):
     __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    nombre = db.Column(db.String(255), nullable=False)
+    nombre = db.Column(db.String(255), nullable=False, unique=True)
     descripcion = db.Column(db.String(255), nullable=False)
 
     def __init__(self, nombre, descripcion):

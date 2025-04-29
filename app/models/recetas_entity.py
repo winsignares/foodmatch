@@ -10,7 +10,7 @@ from app.models.categoria_entity import Categoria, CategoriaSchema
 class Receta(db.Model):
     __tablename__ = 'recetas'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    nombre = db.Column(db.String(255), nullable=False)
+    nombre = db.Column(db.String(255), nullable=False, unique=True)
     pasos = db.Column(db.Text, nullable=False)
     es_vegano = db.Column(db.Boolean, nullable=False)
     es_vegetariano = db.Column(db.Boolean, nullable=False)
