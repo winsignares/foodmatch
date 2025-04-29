@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 data: null,
                 render: function (data) {
                     return `
-                        <a href="EditUser.html?id=${data.id}" class="btn btn-sm btn-primary" style="border-radius: 20px;">Editar</a>
                         <a href="#" class="btn btn-sm btn-danger" style="border-radius: 20px;" onclick="confirmDelete(${data.id})">Eliminar</a>
                     `;
                 }

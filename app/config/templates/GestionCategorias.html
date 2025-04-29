@@ -13,35 +13,56 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../static/css/styleAdminPage.css">
 </head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const nombre = localStorage.getItem('editNombre');
+        const origen = localStorage.getItem('editOrigen');
+    
+        if (nombre && origen) {
+            document.getElementById('ingredient-title').value = nombre;
+            document.getElementById('edit-ingredient-origin').value = origen;
+    
+            // Opcional: cambiar el botón "Enviar" por "Actualizar"
+            const btn = document.querySelector('.btn-submit');
+            if (btn) {
+                btn.textContent = 'Actualizar';
+            }
+    
+            // Limpiar storage después de cargar
+            localStorage.removeItem('editNombre');
+            localStorage.removeItem('editOrigen');
+        }
+    });
+    </script>
+
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <img src="/resources/logo.png" alt="UserAdmin Logo" class="logo">
+                <img src="../static/resources/logo.png" alt="UserAdmin Logo" class="logo">
             </div>
             
             <ul class="list-unstyled components">
                 <!-- Top section -->
-                <li class="top-section">
-                    <a href="Profile.html"><i class="fas fa-user"></i> <span class="menu-text">Perfil</span></a>
-                </li>
+                
                 
                 <!-- Middle section -->
                 <li class="middle-section">
-                    <a href="Users.html"><i class="fas fa-users"></i> <span class="menu-text">Lista de Usuarios</span></a>
+                    <a href="AdminPage.html"><i class="fas fa-users"></i> <span class="menu-text">Lista de Usuarios</span></a>
                 </li>
                 <li class="middle-section">
-                    <a href="Recipes.html"><i class="fas fa-book"></i> <span class="menu-text">Gestión de Recetas</span></a>
+                    <a href="GestionRecetas.html"><i class="fas fa-book"></i> <span class="menu-text">Gestión de Recetas</span></a>
                 </li>
-                <li class="middle-section ">
-                    <a href="Ingredients.html"><i class="fas fa-carrot"></i> <span class="menu-text">Gestión de Ingredientes</span></a>
+                <li class="middle-section">
+                    <a href="GestionIngredientes.html"><i class="fas fa-carrot"></i> <span class="menu-text">Gestión de Ingredientes</span></a>
                 </li>
                 <li class="middle-section active">
-                    <a href="Categories.html"><i class="fas fa-tags"></i> <span class="menu-text">Gestión de Categorías</span></a>
+                    <a href="GestionCategorias.html"><i class="fas fa-tags"></i> <span class="menu-text">Gestión de Categorías</span></a>
                 </li>
                 <li class="middle-section">
-                    <a href="RecipeApproval.html"><i class="fas fa-check-circle"></i> <span class="menu-text">Aprobación de Recetas</span></a>
+                    <a href="AprobacionRecetas.html"><i class="fas fa-check-circle"></i> <span class="menu-text">Aprobación de Recetas</span></a>
                 </li>
                 
                 <!-- Bottom section -->
@@ -80,7 +101,7 @@
             <div class="container main-content my-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1 class="page-title">Gestión de Categorias</h1>
-                    <a href="#.html" class="btn btn-add">
+                    <a href="/app/config/templates/AddCategoria.html" class="btn btn-add">
                         <i class="fas fa-plus"></i> Añadir Categorias
                     </a>
                 </div>

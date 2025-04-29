@@ -106,10 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
             {
                 data: null,
                 className: 'text-end',
-                render: function(data) {
+                render: function (data) {
                     return `
-                        <a href="EditIngredient.html?id=${data.id}" class="btn btn-sm btn-primary">Editar</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDeleteIngredient(${data.id})">Eliminar</button>
+                        <a href="EditCategoria.html" class="btn btn-sm btn-primary" onclick="setEditData('${data.nombre}', '${data.origen}')">Editar</a>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDeleteIngredient('${data.nombre}')">Eliminar</button>
                     `;
                 }
             }
