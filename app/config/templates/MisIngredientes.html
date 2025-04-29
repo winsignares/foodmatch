@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodMatch - Mis Ingredientes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/css/Userpage.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <img src="../static/resources/logo.png" alt="FoodMatch Logo" class="logo">
+            </div>
+            
+            <ul class="list-unstyled components">
+                <!-- Top section -->
+                <li class="top-section">
+                    <a href="Profile.html" id="user-profile-link"><i class="fas fa-user"></i> <span class="menu-text">Usuario</span></a>
+                </li>
+                
+                <!-- Middle section -->
+                <li class="middle-section">
+                    <a href="userPage.html"><i class="fas fa-search"></i> <span class="menu-text">Buscar Recetas</span></a>
+                </li>
+                <li class="middle-section">
+                    <a href="RecetasFavoritas.html"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas Favoritas</span></a>
+                </li>
+                <li class="middle-section active">
+                    <a href="MisIngredientes.html"><i class="fas fa-carrot"></i> <span class="menu-text">Mis Ingredientes</span></a>
+                </li>
+                <li class="middle-section">
+                    <a href="ProponerReceta.html"><i class="fas fa-plus"></i> <span class="menu-text">Proponer Receta</span></a>
+                </li>
+                
+                <!-- Bottom section -->
+                <li class="bottom-section">
+                    <a href="index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> <span class="menu-text">Cerrar Sesión</span></a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Recetas populares</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">Sobre Nosotros</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Mis Ingredientes Container -->
+            <div class="container ingredients-container my-5">
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <h2 class="section-title">Mis Ingredientes</h2>
+                        <p class="text-muted">Gestiona los ingredientes que tienes disponibles en tu nevera</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn btn-add-ingredient" data-bs-toggle="modal" data-bs-target="#addIngredientModal">
+                            <i class="fas fa-plus me-2"></i>Añadir Ingrediente
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Buscar ingrediente..." id="search-ingredient">
+                            <button class="btn btn-search" type="button" id="search-ingredient-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="origin-filter">
+                            <option value="">Todas las categorías</option>
+                            <option value="Vegetal">Vegetal</option>
+                            <option value="Fruta">Fruta</option>
+                            <option value="Lácteo">Lácteo</option>
+                            <option value="Cárnico">Cárnico</option>
+                            <option value="Pescado">Pescado</option>
+                            <option value="Cereal">Cereal</option>
+                            <option value="Legumbre">Legumbre</option>
+                            <option value="Condimento">Condimento</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Ingredients Grid -->
+                <div class="row" id="ingredients-grid">
+                    <!-- Las tarjetas de ingredientes se cargarán dinámicamente -->
+                    <div class="col-12 text-center py-5" id="loading-ingredients">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-2">Cargando tus ingredientes...</p>
+                    </div>
+                </div>
+                
+                <!-- Template for ingredient cards (will be cloned by JavaScript) -->
+              <template id="ingredient-card-template">
+    <div        class="col-md-4 col-lg-3 mb-4">
+            <div class="card ingredient-card">
+            <div class="ingredient-icon">
+                <i class="fas fa-carrot"></i>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title ingredient-name"></h5>
+                <p class="card-text ingredient-origin"></p>
+                <div class="ingredient-actions d-flex">
+                    <button class="btn btn-delete-ingredient ms-auto">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+                
+                <!-- No ingredients message (hidden by default) -->
+                <div class="empty-state d-none" id="no-ingredients-message">
+                    <i class="fas fa-shopping-basket"></i>
+                    <h4>No tienes ingredientes guardados</h4>
+                    <p>Añade los ingredientes que tienes disponibles en tu nevera para encontrar recetas que puedas preparar.</p>
+                    <button class="btn btn-add-ingredient mt-3" data-bs-toggle="modal" data-bs-target="#addIngredientModal">
+                        </i>Añadir ingrediente
+                    </button>
+                </div>
+                
+                <!-- Error message (hidden by default) -->
+                <div class="alert alert-danger text-center my-5 d-none" id="error-ingredients-message">
+                    Ha ocurrido un error al cargar tus ingredientes. Por favor, intenta de nuevo más tarde.
+                </div>
+            </div>
+
+            <!-- Add Ingredient Modal -->
+            <div class="modal fade" id="addIngredientModal" tabindex="-1" aria-labelledby="addIngredientModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addIngredientModalLabel">Añadir Ingrediente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="add-ingredient-form" class="needs-validation" novalidate>
+                                <div class="mb-3">
+                                    <label for="ingredient-name" class="form-label">Nombre del Ingrediente</label>
+                                    <input type="text" class="form-control" id="ingredient-name" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, introduce el nombre del ingrediente.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ingredient-origin" class="form-label">Categoría</label>
+                                    <select class="form-select" id="ingredient-origin" required>
+                                        <option value="" selected disabled>Selecciona una categoría</option>
+                                        <option value="Vegetal">Vegetal</option>
+                                        <option value="Fruta">Fruta</option>
+                                        <option value="Lácteo">Lácteo</option>
+                                        <option value="Cárnico">Cárnico</option>
+                                        <option value="Pescado">Pescado</option>
+                                        <option value="Cereal">Cereal</option>
+                                        <option value="Legumbre">Legumbre</option>
+                                        <option value="Condimento">Condimento</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecciona la categoría del ingrediente.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ingredient-icon" class="form-label">Icono (opcional)</label>
+                                    <select class="form-select" id="ingredient-icon">
+                                        <option value="">Sin icono</option>
+                                        <option value="fa-carrot">🥕 Zanahoria</option>
+                                        <option value="fa-apple-whole">🍎 Manzana</option>
+                                        <option value="fa-lemon">🍋 Limón</option>
+                                        <option value="fa-egg">🥚 Huevo</option>
+                                        <option value="fa-cheese">🧀 Queso</option>
+                                        <option value="fa-bread-slice">🍞 Pan</option>
+                                        <option value="fa-drumstick-bite">🍗 Pollo</option>
+                                        <option value="fa-fish">🐟 Pescado</option>
+                                        <option value="fa-pepper-hot">🌶️ Chile</option>
+                                        <option value="fa-seedling">🌱 Hierbas</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-submit" id="save-ingredient-btn">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Ingredient Modal -->
+            <div class="modal fade" id="editIngredientModal" tabindex="-1" aria-labelledby="editIngredientModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editIngredientModalLabel">Editar Ingrediente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="edit-ingredient-form" class="needs-validation" novalidate>
+                                <input type="hidden" id="edit-ingredient-id">
+                                <div class="mb-3">
+                                    <label for="edit-ingredient-name" class="form-label">Nombre del Ingrediente</label>
+                                    <input type="text" class="form-control" id="edit-ingredient-name" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, introduce el nombre del ingrediente.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-ingredient-origin" class="form-label">Categoría</label>
+                                    <select class="form-select" id="edit-ingredient-origin" required>
+                                        <option value="" selected disabled>Selecciona una categoría</option>
+                                        <option value="Vegetal">Vegetal</option>
+                                        <option value="Fruta">Fruta</option>
+                                        <option value="Lácteo">Lácteo</option>
+                                        <option value="Cárnico">Cárnico</option>
+                                        <option value="Pescado">Pescado</option>
+                                        <option value="Cereal">Cereal</option>
+                                        <option value="Legumbre">Legumbre</option>
+                                        <option value="Condimento">Condimento</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecciona la categoría del ingrediente.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-ingredient-icon" class="form-label">Icono (opcional)</label>
+                                    <select class="form-select" id="edit-ingredient-icon">
+                                        <option value="">Sin icono</option>
+                                        <option value="fa-carrot">🥕 Zanahoria</option>
+                                        <option value="fa-apple-whole">🍎 Manzana</option>
+                                        <option value="fa-lemon">🍋 Limón</option>
+                                        <option value="fa-egg">🥚 Huevo</option>
+                                        <option value="fa-cheese">🧀 Queso</option>
+                                        <option value="fa-bread-slice">🍞 Pan</option>
+                                        <option value="fa-drumstick-bite">🍗 Pollo</option>
+                                        <option value="fa-fish">🐟 Pescado</option>
+                                        <option value="fa-pepper-hot">🌶️ Chile</option>
+                                        <option value="fa-seedling">🌱 Hierbas</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-submit" id="update-ingredient-btn">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteIngredientModal" tabindex="-1" aria-labelledby="deleteIngredientModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteIngredientModalLabel">Confirmar Eliminación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que deseas eliminar este ingrediente?</p>
+                            <p id="delete-ingredient-name" class="fw-bold"></p>
+                            <input type="hidden" id="delete-ingredient-id">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger" id="confirm-delete-btn">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer mt-5 py-4 text-center">
+                <div class="container">
+                    <p class="mb-1">FoodMatch</p>
+                    <p class="mb-1">Contacto: Foodmatch@gmail.com</p>
+                    <p class="mb-0">© 2025 FoodMatch. Reservados todos los derechos</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/scriptUserPage.js"></script>
+    <script src="../js/MisIngredientes.js"></script>
+</body>
+</html>
