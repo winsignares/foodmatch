@@ -119,7 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button class="action-btn btn-approve" title="Aprobar" onclick="approveRecipe(${recipe.id})">
                                     <i class="fas fa-check"></i>
                                 </button>
-                              
+                                <button class="action-btn btn-comment" title="Comentar" onclick="openCommentModal(${recipe.id})">
+                                    <i class="fas fa-comment"></i>
+                                </button>
                                 <button class="action-btn btn-reject" title="Rechazar" onclick="rejectRecipe(${recipe.id})">
                                     <i class="fas fa-times"></i>
                                 </button>

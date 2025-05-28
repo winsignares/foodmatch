@@ -123,24 +123,27 @@
                 </div>
                 
                 <!-- Template for ingredient cards (will be cloned by JavaScript) -->
-              <template id="ingredient-card-template">
-    <div        class="col-md-4 col-lg-3 mb-4">
-            <div class="card ingredient-card">
-            <div class="ingredient-icon">
-                <i class="fas fa-carrot"></i>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title ingredient-name"></h5>
-                <p class="card-text ingredient-origin"></p>
-                <div class="ingredient-actions d-flex">
-                    <button class="btn btn-delete-ingredient ms-auto">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
+                <template id="ingredient-card-template">
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card ingredient-card">
+                            <div class="ingredient-icon">
+                                <i class="fas fa-carrot"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title ingredient-name"></h5>
+                                <p class="card-text ingredient-origin"></p>
+                                <div class="ingredient-actions">
+                                    <button class="btn btn-edit-ingredient" data-bs-toggle="modal" data-bs-target="#editIngredientModal">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-delete-ingredient">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
                 
                 <!-- No ingredients message (hidden by default) -->
                 <div class="empty-state d-none" id="no-ingredients-message">

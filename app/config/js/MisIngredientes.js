@@ -15,14 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const ingredientOrigin = document.getElementById("ingredient-origin")
     const ingredientIcon = document.getElementById("ingredient-icon")
     const saveIngredientBtn = document.getElementById("save-ingredient-btn")
-
+  
     const editIngredientForm = document.getElementById("edit-ingredient-form")
     const editIngredientId = document.getElementById("edit-ingredient-id")
     const editIngredientName = document.getElementById("edit-ingredient-name")
     const editIngredientOrigin = document.getElementById("edit-ingredient-origin")
     const editIngredientIcon = document.getElementById("edit-ingredient-icon")
     const updateIngredientBtn = document.getElementById("update-ingredient-btn")
-
+  
     const deleteIngredientId = document.getElementById("delete-ingredient-id")
     const deleteIngredientName = document.getElementById("delete-ingredient-name")
     const confirmDeleteBtn = document.getElementById("confirm-delete-btn")
@@ -131,8 +131,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = ingredientCard.querySelector(".ingredient-card")
             card.dataset.id = ingredient.id
   
-
-
+            // Configurar botones de acción
+            const editButton = ingredientCard.querySelector(".btn-edit-ingredient")
+            editButton.addEventListener("click", () => {
+              openEditModal(ingredient)
+            })
+  
             const deleteButton = ingredientCard.querySelector(".btn-delete-ingredient")
             deleteButton.addEventListener("click", () => {
               openDeleteModal(ingredient)
