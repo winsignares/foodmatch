@@ -2,13 +2,13 @@ from flask import Blueprint, render_template
 
 usuario_route = Blueprint('usuario_route', __name__)
 
-@usuario_route.route('/register', methods=['GET'])
+@usuario_route.route('/registro', methods=['GET'])
 def register():
-    return render_template('register.html')
+    return render_template('usuario/Register.html')
 
 @usuario_route.route('/login', methods=['GET'])
 def login ():
-    return render_template('login.html')
+    return render_template('usuario/login.html')
 
 @usuario_route.route('/recetas', methods=['GET'])
 def proponer_receta():

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UserAdmin - Lista de Usuarios</title>
+    <title>UserAdmin - Gestión de Ingredientes</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -11,27 +11,52 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../static/css/styleAdminPage.css">
+    <link rel="stylesheet" href="../../static/css/styleAdminPage.css">
 </head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const nombre = localStorage.getItem('editNombre');
+        const origen = localStorage.getItem('editOrigen');
+    
+        if (nombre && origen) {
+            document.getElementById('ingredient-title').value = nombre;
+            document.getElementById('edit-ingredient-origin').value = origen;
+    
+            // Opcional: cambiar el botón "Enviar" por "Actualizar"
+            const btn = document.querySelector('.btn-submit');
+            if (btn) {
+                btn.textContent = 'Actualizar';
+            }
+    
+            // Limpiar storage después de cargar
+            localStorage.removeItem('editNombre');
+            localStorage.removeItem('editOrigen');
+        }
+    });
+    </script>
+    
+
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <img src="../static/resources/logo.png" alt="UserAdmin Logo" class="logo">
+                <img src="../../static/resources/logo.png" alt="UserAdmin Logo" class="logo">
             </div>
             
             <ul class="list-unstyled components">
                 <!-- Top section -->
                 
+                
                 <!-- Middle section -->
-                <li class="middle-section active">
+                <li class="middle-section">
                     <a href="AdminPage.html"><i class="fas fa-users"></i> <span class="menu-text">Lista de Usuarios</span></a>
                 </li>
                 <li class="middle-section">
                     <a href="GestionRecetas.html"><i class="fas fa-book"></i> <span class="menu-text">Gestión de Recetas</span></a>
                 </li>
-                <li class="middle-section">
+                <li class="middle-section active">
                     <a href="GestionIngredientes.html"><i class="fas fa-carrot"></i> <span class="menu-text">Gestión de Ingredientes</span></a>
                 </li>
                 <li class="middle-section">
@@ -75,16 +100,21 @@
 
             <!-- Main Content -->
             <div class="container main-content my-5">
-                <h1 class="page-title">Lista de Usuarios</h1>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="page-title">Gestión de Ingredientes</h1>
+                    <a href="AddIngrediente.html" class="btn btn-add">
+                        <i class="fas fa-plus"></i> Añadir Ingrediente
+                    </a>
+                </div>
+
                 <div class="table-container">
-                    <table id="usuariosTable" class="table table-striped">
+                    <table id="ingredientesTable" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Teléfono</th>
-                                <th>Email</th>
-                                <th>Acciones</th>
+                                <th>Origen</th>
+                                
+                                <th class="text-end">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,6 +140,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="../js/UserAdmin.js"></script>
+    <script src="../../static/js/admin/GestionIngredientes.js"></script>
 </body>
 </html>

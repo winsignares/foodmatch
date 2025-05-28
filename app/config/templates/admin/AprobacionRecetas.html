@@ -3,51 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UserAdmin - Gestión de Ingredientes</title>
+    <title>UserAdmin - Aprobación de Recetas</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../static/css/styleAdminPage.css">
+    <link rel="stylesheet" href="../../static/css/styleAdminPage.css">
 </head>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const nombre = localStorage.getItem('editNombre');
-        const origen = localStorage.getItem('editOrigen');
-    
-        if (nombre && origen) {
-            document.getElementById('ingredient-title').value = nombre;
-            document.getElementById('edit-ingredient-origin').value = origen;
-    
-            // Opcional: cambiar el botón "Enviar" por "Actualizar"
-            const btn = document.querySelector('.btn-submit');
-            if (btn) {
-                btn.textContent = 'Actualizar';
-            }
-    
-            // Limpiar storage después de cargar
-            localStorage.removeItem('editNombre');
-            localStorage.removeItem('editOrigen');
-        }
-    });
-    </script>
-    
-
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <img src="../static/resources/logo.png" alt="UserAdmin Logo" class="logo">
+                <img src="../../static/resources/logo.png" alt="UserAdmin Logo" class="logo">
             </div>
             
             <ul class="list-unstyled components">
                 <!-- Top section -->
-                
                 
                 <!-- Middle section -->
                 <li class="middle-section">
@@ -56,13 +29,13 @@
                 <li class="middle-section">
                     <a href="GestionRecetas.html"><i class="fas fa-book"></i> <span class="menu-text">Gestión de Recetas</span></a>
                 </li>
-                <li class="middle-section active">
+                <li class="middle-section">
                     <a href="GestionIngredientes.html"><i class="fas fa-carrot"></i> <span class="menu-text">Gestión de Ingredientes</span></a>
                 </li>
                 <li class="middle-section">
                     <a href="GestionCategorias.html"><i class="fas fa-tags"></i> <span class="menu-text">Gestión de Categorías</span></a>
                 </li>
-                <li class="middle-section">
+                <li class="middle-section active">
                     <a href="AprobacionRecetas.html"><i class="fas fa-check-circle"></i> <span class="menu-text">Aprobación de Recetas</span></a>
                 </li>
                 
@@ -100,27 +73,28 @@
 
             <!-- Main Content -->
             <div class="container main-content my-5">
+                <h1 class="page-title">Aprobación de Recetas</h1>
+                
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="page-title">Gestión de Ingredientes</h1>
-                    <a href="AddIngrediente.html" class="btn btn-add">
-                        <i class="fas fa-plus"></i> Añadir Ingrediente
-                    </a>
+                    <div class="search-container">
+                        <input type="text" id="recipe-search" class="form-control" placeholder="Buscar recetas...">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-sort dropdown-toggle" type="button" data-bs-toggle="dropdown" id="sort-button">
+                            <i class="fas fa-sort"></i> Ordenar
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" data-sort="date_desc">Más recientes</a></li>
+                            <li><a class="dropdown-item" href="#" data-sort="title_asc">Alfabético (A-Z)</a></li>
+                            <li><a class="dropdown-item" href="#" data-sort="title_desc">Alfabético (Z-A)</a></li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="table-container">
-                    <table id="ingredientesTable" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Origen</th>
-                                
-                                <th class="text-end">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Los datos se cargarán dinámicamente -->
-                        </tbody>
-                    </table>
+                <!-- Recipe Approval Cards -->
+                <div class="row" id="approval-container">
+                    <!-- Las tarjetas se cargarán dinámicamente -->
                 </div>
             </div>
 
@@ -135,11 +109,34 @@
         </div>
     </div>
 
+    <!-- Modal para comentarios -->
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commentModalLabel">Añadir Comentario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="commentForm">
+                        <input type="hidden" id="recipeId" name="recipeId">
+                        <div class="mb-3">
+                            <label for="commentText" class="form-label">Comentario</label>
+                            <textarea class="form-control" id="commentText" rows="4" placeholder="Escribe tu comentario o sugerencia para el autor..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="submitComment">Enviar Comentario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="../js/GestionIngredientes.js"></script>
+    <script src="../../static/js/admin/AprobacionRecetas.js"></script>
 </body>
 </html>
