@@ -45,7 +45,7 @@
                 
                 <p class="register-text">¿No te has registrado? Regístrate <a href="/registro" class="register-link">Aquí</a></p>
                 
-                <button type="submit" class="login-button">Entrar</button>
+                <button id="btnLogin" type="submit" class="login-button">Entrar</button>
             </form>
         </div>
     </div>
@@ -79,5 +79,8 @@
             });
         });
     </script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ url_for('static', filename='js/api/AuthApi.js') }}"></script>
 </body>
 </html>

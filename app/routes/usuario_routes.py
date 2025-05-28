@@ -7,8 +7,12 @@ def register():
     return render_template('usuario/Register.html')
 
 @usuario_route.route('/login', methods=['GET'])
-def login ():
+def login():
     return render_template('usuario/login.html')
+
+@usuario_route.route('/panel', methods=['GET'])
+def user_page():
+    return render_template('usuario/userPage.html')
 
 @usuario_route.route('/recetas', methods=['GET'])
 def proponer_receta():

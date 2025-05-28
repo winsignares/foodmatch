@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     // Verificar si es dispositivo móvil
     const isMobile = window.innerWidth < 768;
@@ -38,39 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Simula datos de usuarios (puedes reemplazar con una llamada a una API)
-    const usuarios = [
-        { id: 1, nombre: 'Juan', apellido: 'Pérez', telefono: '555-123-4567', email: 'juan.perez@example.com' },
-        { id: 2, nombre: 'María', apellido: 'Gómez', telefono: '555-987-6543', email: 'maria.gomez@example.com' },
-        { id: 3, nombre: 'Carlos', apellido: 'López', telefono: '555-456-7890', email: 'carlos.lopez@example.com' },
-        { id: 4, nombre: 'Ana', apellido: 'Martínez', telefono: '555-321-6547', email: 'ana.martinez@example.com' },
-        { id: 5, nombre: 'Luis', apellido: 'Rodríguez', telefono: '555-654-9876', email: 'luis.rodriguez@example.com' }
-    ];
 
-    // Inicializar DataTable
-    $('#usuariosTable').DataTable({
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-        },
-        data: usuarios,
-        columns: [
-            { data: 'nombre' },
-            { data: 'apellido' },
-            { data: 'telefono' },
-            { data: 'email' },
-            {
-                data: null,
-                render: function (data) {
-                    return `
-                        <a href="#" class="btn btn-sm btn-danger" style="border-radius: 20px;" onclick="confirmDelete(${data.id})">Eliminar</a>
-                    `;
-                }
-            }
-        ],
-        pageLength: 5,
-        responsive: true
-    });
-    
     // Ajustar el diseño cuando cambia el tamaño de la ventana
     window.addEventListener('resize', () => {
         const currentIsMobile = window.innerWidth < 768;
@@ -82,10 +51,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Función para confirmar eliminación (puedes personalizarla según tu backend)
-function confirmDelete(id) {
-    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-        // Aquí iría la lógica para eliminar el usuario (ej. llamada a API)
-        alert(`Usuario con ID ${id} eliminado (simulación).`);
-    }
-}
