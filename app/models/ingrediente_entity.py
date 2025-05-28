@@ -2,6 +2,7 @@
 
 from app.config.db import db
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow import fields
 
 
 class Origen(db.Model):
@@ -40,3 +41,5 @@ class IngredienteSchema(SQLAlchemyAutoSchema):
         model = Ingrediente
         load_instance = True
         include_fk = True
+
+    origen_nombre = fields.String(attribute="origen.nombre")

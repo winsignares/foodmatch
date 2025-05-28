@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Toggle sidebar
     const sidebar = document.getElementById('sidebar');
-    const content = document.getElementById('content');
+    const content  = document.getElementById('content');
     const body = document.body;
     
     // En dispositivos móviles, asegurarse de que el sidebar esté cerrado por defecto
