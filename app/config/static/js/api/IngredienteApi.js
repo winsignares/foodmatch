@@ -14,12 +14,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 className: 'text-end',
                 render: function (data, type, row) {
                     return `
+                        <button class="btn btn-sm btn-danger" onclick="eliminarIngrediente(${row.id})">
+                            Eliminar
+                        </button>
                         <button class="btn btn-sm btn-primary" onclick="editarIngrediente(${row.id})">
                             Editar
                         </button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminarIngrediente(${row.id})">
-                        Eliminar
-                        </button>
+                        
                     `;
                 }
             }

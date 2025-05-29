@@ -30,3 +30,10 @@ class CategoriaService:
 
     def eliminar_categoria(self, id):
         self.categoria_repository.eliminar_categoria(id)
+
+    def obtener_categoria_por_id(self, id):
+        resultado_consulta = self.categoria_repository.obtener_categoria_por_id(id)
+        if resultado_consulta:
+            categoria = self.categoria_schema.dump(resultado_consulta)
+            return categoria
+        return None

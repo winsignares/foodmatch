@@ -75,13 +75,10 @@
             <div class="container main-content my-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1 class="page-title">Gestión de Recetas</h1>
-                    <a href="AggReceta.html" class="btn btn-add">
+                    <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#modalAgregarReceta">
                         <i class="fas fa-plus"></i> Agregar Receta
-                    </a>
+                    </button>
                 </div>
-
-           
-                
 
                 <!-- Recipe Cards Container -->
                 <div class="row" id="recipes-container">
@@ -106,9 +103,172 @@
         </div>
     </div>
 
+    <!-- Modal para agregar recetas -->
+<div class="modal fade" id="modalAgregarReceta" tabindex="-1" aria-labelledby="modalAgregarRecetaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAgregarRecetaLabel">Agregar Receta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="formAgregarReceta" onsubmit="agregarReceta(event)">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nombreReceta" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreReceta" placeholder="Ingrese el nombre de la receta" required>
+          </div>
+          <div class="mb-3">
+            <label for="pasosReceta" class="form-label">Pasos</label>
+            <textarea class="form-control" id="pasosReceta" rows="4" placeholder="Ingrese los pasos de la receta" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Opciones</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="vegetariano">
+              <label class="form-check-label" for="vegetariano">Es vegetariano</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="vegano">
+              <label class="form-check-label" for="vegano">Es vegano</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Categorías</label>
+            <div class="input-group mb-2">
+              <input type="text" id="inputCategoria" class="form-control" placeholder="Agregar categoría">
+              <button type="button" class="btn btn-outline-secondary" onclick="agregarCategoria()">Agregar</button>
+            </div>
+            <ul class="list-group" id="listaCategorias"></ul>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Ingredientes</label>
+            <div class="input-group mb-2">
+              <input type="text" id="inputIngrediente" class="form-control" placeholder="Agregar ingrediente">
+              <button type="button" class="btn btn-outline-secondary" onclick="agregarIngrediente()">Agregar</button>
+            </div>
+            <ul class="list-group" id="listaIngredientes"></ul>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar Receta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const categorias = [];
+  const ingredientes = [];
+
+  function agregarCategoria() {
+    const input = document.getElementById('inputCategoria');
+    const value = input.value.trim();
+    if (value) {
+      categorias.push(value);
+      actualizarLista('listaCategorias', categorias);
+      input.value = '';
+    }
+  }
+
+  function agregarIngrediente() {
+    const input = document.getElementById('inputIngrediente');
+    const value = input.value.trim();
+    if (value) {
+      ingredientes.push(value);
+      actualizarLista('listaIngredientes', ingredientes);
+      input.value = '';
+    }
+  }
+
+  function actualizarLista(idLista, elementos) {
+    const lista = document.getElementById(idLista);
+    lista.innerHTML = '';
+    elementos.forEach((elemento, index) => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item d-flex justify-content-between align-items-center';
+      li.textContent = elemento;
+
+      const btnEliminar = document.createElement('button');
+      btnEliminar.className = 'btn btn-sm btn-danger';
+      btnEliminar.textContent = 'Eliminar';
+      btnEliminar.onclick = () => {
+        elementos.splice(index, 1);
+        actualizarLista(idLista, elementos);
+      };
+
+      li.appendChild(btnEliminar);
+      lista.appendChild(li);
+    });
+  }
+
+  function agregarReceta(event) {
+    event.preventDefault();
+    // Aquí puedes construir tu objeto con todos los valores y enviarlo al backend
+    const receta = {
+      nombre: document.getElementById('nombreReceta').value.trim(),
+      pasos: document.getElementById('pasosReceta').value.trim(),
+      vegetariano: document.getElementById('vegetariano').checked,
+      vegano: document.getElementById('vegano').checked,
+      categorias,
+      ingredientes
+    };
+
+    console.log('Receta a guardar:', receta);
+    // Luego podrías enviar esto con fetch o AJAX
+  }
+</script>
+                   <input class="form-check-input" type="checkbox" id="esVegano">
+                            <label class="form-check-label" for="esVegano">Es vegano</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="esVegetariano">
+                            <label class="form-check-label" for="esVegetariano">Es vegetariano</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ingredientesReceta" class="form-label">Ingredientes</label>
+                        <select class="form-select" id="ingredientesReceta" multiple required>
+                            <option value="1">Lechuga</option>
+                            <option value="2">Tomate</option>
+                            <option value="3">Cebolla</option>
+                            <option value="4">Aceite</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoriasReceta" class="form-label">Categorías</label>
+                        <select class="form-select" id="categoriasReceta" multiple required>
+                            <option value="1">Ensaladas</option>
+                            <option value="2">Vegano</option>
+                            <option value="3">Vegetariano</option>
+                            <option value="4">Rápido</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fotoReceta" class="form-label">Foto</label>
+                        <input type="file" class="form-control" id="fotoReceta" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../static/js/admin/GestionRecetas.js"></script>
+
+
+    <script src="{{ url_for('static', filename='js/admin/UserAdmin.js') }}"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 </html>

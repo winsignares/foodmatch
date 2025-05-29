@@ -100,9 +100,9 @@
             <div class="container main-content my-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1 class="page-title">Gestión de Categorias</h1>
-                    <a href="/app/config/templates/admin/AddCategoria.html" class="btn btn-add">
+                    <button  class="btn btn-add" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">
                         <i class="fas fa-plus"></i> Añadir Categorias
-                    </a>
+                    </button>
                 </div>
 
                 <div class="table-container">
@@ -132,11 +132,72 @@
         </div>
     </div>
 
+    <!-- Modal para agregar categorías -->
+<div class="modal fade" id="modalAgregarCategoria" tabindex="-1" aria-labelledby="modalAgregarCategoriaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarCategoriaLabel">Agregar Categoría</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formAgregarCategoria" onsubmit="agregarCategoria(event)">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombreCategoria" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreCategoria" placeholder="Ingrese el nombre de la categoría" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionCategoria" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcionCategoria" rows="3" placeholder="Ingrese la descripción de la categoría" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal para editar categorías -->
+<div class="modal fade" id="modalEditarCategoria" tabindex="-1" aria-labelledby="modalEditarCategoriaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarCategoriaLabel">Editar Categoría</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formEditarCategoria" onsubmit="actualizarCategoria(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdCategoria">
+                    <div class="mb-3">
+                        <label for="editarNombreCategoria" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editarNombreCategoria" placeholder="Ingrese el nombre de la categoría" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarDescripcionCategoria" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="editarDescripcionCategoria" rows="3" placeholder="Ingrese la descripción de la categoría" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="../../static/js/admin/GestionCategorias.js"></script>
+    <script src="{{ url_for('static', filename='js/admin/UserAdmin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/api/CategoriaApi.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </body>
 </html>
