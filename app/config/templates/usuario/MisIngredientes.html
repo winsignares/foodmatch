@@ -9,14 +9,14 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../static/css/Userpage.css">
+    <link rel="stylesheet" href="../../static/css/Userpage.css">
 </head>
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <img src="../static/resources/logo.png" alt="FoodMatch Logo" class="logo">
+                <img src="../../static/resources/logo.png" alt="FoodMatch Logo" class="logo">
             </div>
             
             <ul class="list-unstyled components">
@@ -41,7 +41,7 @@
                 
                 <!-- Bottom section -->
                 <li class="bottom-section">
-                    <a href="index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> <span class="menu-text">Cerrar Sesión</span></a>
+                    <a href="../index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> <span class="menu-text">Cerrar Sesión</span></a>
                 </li>
             </ul>
         </nav>
@@ -58,13 +58,13 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="index.html">Home</a>
+                                <a class="nav-link" href="../index.html">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="index.html">Recetas populares</a>
+                                <a class="nav-link" href="../index.html">Recetas populares</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="index.html">Sobre Nosotros</a>
+                                <a class="nav-link active" href="../index.html">Sobre Nosotros</a>
                             </li>
                         </ul>
                     </div>
@@ -123,24 +123,27 @@
                 </div>
                 
                 <!-- Template for ingredient cards (will be cloned by JavaScript) -->
-              <template id="ingredient-card-template">
-    <div        class="col-md-4 col-lg-3 mb-4">
-            <div class="card ingredient-card">
-            <div class="ingredient-icon">
-                <i class="fas fa-carrot"></i>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title ingredient-name"></h5>
-                <p class="card-text ingredient-origin"></p>
-                <div class="ingredient-actions d-flex">
-                    <button class="btn btn-delete-ingredient ms-auto">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
+                <template id="ingredient-card-template">
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card ingredient-card">
+                            <div class="ingredient-icon">
+                                <i class="fas fa-carrot"></i>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title ingredient-name"></h5>
+                                <p class="card-text ingredient-origin"></p>
+                                <div class="ingredient-actions">
+                                    <button class="btn btn-edit-ingredient" data-bs-toggle="modal" data-bs-target="#editIngredientModal">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-delete-ingredient">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
                 
                 <!-- No ingredients message (hidden by default) -->
                 <div class="empty-state d-none" id="no-ingredients-message">
@@ -316,7 +319,7 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
-    <script src="../js/scriptUserPage.js"></script>
-    <script src="../js/MisIngredientes.js"></script>
+    <script src="../../static/js/usuario/scriptUserPage.js"></script>
+    <script src="../../static/js/usuario/MisIngredientes.js"></script>
 </body>
 </html>

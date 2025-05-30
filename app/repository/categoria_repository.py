@@ -27,3 +27,9 @@ class CategoriaRepository:
         categoria_existente.descripcion = categoria_nueva.descripcion
         db.session.commit()
 
+    def obtener_categoria_por_id(self, id):
+        categoria = Categoria.query.get(id)
+        if not categoria:
+            raise ValueError("Categoria no encontrada")
+        return categoria
+

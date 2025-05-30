@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FoodMatch - Registro</title>
  
-    <link rel="stylesheet" href="../static/css/styleRegister.css" crossorigin>
+    <link rel="stylesheet" href="../../static/css/styleRegister.css" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
@@ -18,9 +18,9 @@
     <!-- Header -->
     <div class="header">
         <div class="back-button-container">
-            <button class="back-button" onclick="window.open('login.html', '_self')"">
+            <a href="/login" class="back-button">
                 <i class="bi bi-arrow-left"></i> Regresar
-            </button>
+            </a>
         </div>
     </div>
     
@@ -85,8 +85,8 @@
                         </button>
                     </div>
                 </div>
-                
-                <button type="submit" class="register-button">Registrar</button>
+                <button id="registerBtn" type="submit" class="register-button">Registrar</button>
+                <p class="login-text">¿Ya tienes cuenta? Ingresa <a href="/login" class="login-link">Aquí</a></p>
             </form>
         </div>
     </div>
@@ -99,54 +99,32 @@
             <i class="bi bi-c-circle"></i> 2025 FoodMatch. Reservados todos los derechos
         </div>
     </footer>
-    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+
+            togglePassword.addEventListener('click', function() {
+                // Toggle the type attribute
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Toggle the icon
+                this.querySelector('i').classList.toggle('bi-eye');
+                this.querySelector('i').classList.toggle('bi-eye-slash');
+            });
+        });
+    </script>
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Custom JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle password visibility for password field
-            const togglePassword = document.getElementById('togglePassword');
-            const passwordInput = document.getElementById('password');
-            
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                
-                this.querySelector('i').classList.toggle('bi-eye');
-                this.querySelector('i').classList.toggle('bi-eye-slash');
-            });
-            
-            // Toggle password visibility for confirm password field
-            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-            const confirmPasswordInput = document.getElementById('confirmPassword');
-            
-            toggleConfirmPassword.addEventListener('click', function() {
-                const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                confirmPasswordInput.setAttribute('type', type);
-                
-                this.querySelector('i').classList.toggle('bi-eye');
-                this.querySelector('i').classList.toggle('bi-eye-slash');
-            });
-            
-            // Form validation
-            const form = document.querySelector('form');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                const password = passwordInput.value;
-                const confirmPassword = confirmPasswordInput.value;
-                
-                if (password !== confirmPassword) {
-                    alert('Las contraseñas no coinciden');
-                    return;
-                }
-                
-                // Here you would normally submit the form or handle the data
-                console.log('Formulario enviado correctamente');
-            });
-        });
-    </script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ url_for('static', filename='js/api/AuthApi.js') }}"></script>
 </body>
 </html>

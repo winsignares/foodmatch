@@ -2,13 +2,26 @@ from flask import Blueprint, render_template
 
 admin_routes = Blueprint('admin_routes', __name__, url_prefix='/admin')
 
-@admin_routes.route('/usuarios', methods=['GET'])
+@admin_routes.route('/panel', methods=['GET'])
 def usuarios():
-    return render_template('usuarios.html')
+    return render_template('admin/AdminPage.html')
+
+@admin_routes.route('/recetas', methods=['GET'])
+def recetas():
+    return render_template('admin/GestionRecetas.html')
 
 @admin_routes.route('/ingredientes', methods=['GET'])
 def ingredientes():
-    return render_template('ingredientes.html')
+    return render_template('admin/GestionIngredientes.html')
+
+@admin_routes.route('/categorias', methods=['GET'])
+def categorias():
+    return render_template('admin/GestionCategorias.html')
+
+@admin_routes.route('/aprobar-recetas', methods=['GET'])
+def aprobar_recetas():
+    return render_template('admin/AprobacionRecetas.html')
+
 
 @admin_routes.route('/ingredientes/agregar', methods=['GET'])
 def agregar_ingredientes():
@@ -18,13 +31,8 @@ def agregar_ingredientes():
 def editar_ingredientes():
     return render_template('editar_ingredientes.html')
 
-@admin_routes.route('/recetas', methods=['GET'])
-def recetas():
-    return render_template('recetas.html')
 
-@admin_routes.route('/recetas/solicitudes', methods=['GET'])
-def aprobar_recetas():
-    return render_template('aprobar_recetas.html')
+
 
 @admin_routes.route('/recetas/agregar', methods=['GET'])
 def agregar_recetas():
@@ -37,10 +45,6 @@ def editar_recetas():
 @admin_routes.route('/recetas/detalles/<int:id>', methods=['GET'])
 def detalles_receta():
     return render_template('detalles_receta.html')
-
-@admin_routes.route('/categorias', methods=['GET'])
-def categorias():
-    return render_template('categorias.html')
 
 @admin_routes.route('/categorias/agregar', methods=['GET'])
 def agregar_categorias():

@@ -40,3 +40,15 @@ def eliminar_categoria(id):
         return jsonify({"message": "Categoria eliminada exitosamente"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@categoria_bp.route('/<int:id>', methods=['GET'])
+def obtener_categoria_por_id(id):
+    try:
+        categoria_service = CategoriaService()
+        categoria = categoria_service.obtener_categoria_por_id(id)
+        if categoria:
+            return jsonify(categoria), 200
+        else:
+            return jsonify({"error": "Categoria no encontrada"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400

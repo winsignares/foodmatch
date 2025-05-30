@@ -6,7 +6,7 @@ db = SQLAlchemy()
 ma = Marshmallow()
 
 def create_app():
-    app = Flask(__name__,template_folder='templates',static_folder='static')
+    app = Flask(__name__,template_folder='templates', static_folder='static')
 
     user = "root"
     password = "root"

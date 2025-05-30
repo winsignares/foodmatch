@@ -26,6 +26,9 @@ services:
       - DB_NAME=foodmatch  # Removed unnecessary '='
     ports:
       - "5000:5000"
+    volumes:
+      - ./app/config/static/uploads:/app/app/config/static/uploads
+
 
 volumes:
   mysql_data:
