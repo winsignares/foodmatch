@@ -27,7 +27,8 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./app/static/uploads:/app/app/static/uploads
+      - ./app/config/static/uploads:/app/app/config/static/uploads
+
 
 volumes:
   mysql_data:

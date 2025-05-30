@@ -12,9 +12,11 @@ def crear_receta():
     try:
         data = request.form.get('data')
         data = json.loads(data)
+        pasos = request.form.get('pasos')
+        pasos = json.loads(pasos)
         foto = request.files.get('foto')
         receta_service = RecetaService()
-        receta_service.crear_receta(data, foto)
+        receta_service.crear_receta(data, foto, pasos)
         return jsonify(mensaje="Receta creada exitosamente"), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -121,5 +123,14 @@ def recomendar_recetas():
         receta_service = RecetaService()
         recetas_recomendadas = receta_service.recomendar_recetas(data)
         return jsonify(recetas_recomendadas), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@receta_bp.route('/categorias_ingredientes/', methods=['GET'])
+def retornar_categorias_ingredientes():
+    try:
+        receta_service = RecetaService()
+        categorias_ingredientes = receta_service.retornar_categorias_ingredientes()
+        return jsonify(categorias_ingredientes), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400

@@ -3,6 +3,9 @@ import os
 from app.models.recetas_entity import Receta, RecetaSchema
 from app.repository.receta_repository import RecetaRepository
 
+from app.models.ingrediente_entity import IngredienteSchema
+from app.models.categoria_entity import CategoriaSchema
+
 from app.models.ingrediente_entity import Ingrediente
 from app.models.categoria_entity import Categoria
 from app.utils.file_manager import FileManager
@@ -20,13 +23,13 @@ class RecetaService:
             upload_folder=os.path.join(app.config["STATIC_FOLDER"], "uploads", "recetas")
         )
 
-    def crear_receta(self, data, foto):
+    def crear_receta(self, data, foto, pasos):
 
         ingredientes = Ingrediente.query.filter(Ingrediente.id.in_(data['ingredientes'])).all()
         categorias = Categoria.query.filter(Categoria.id.in_(data['categorias'])).all()
         nueva_receta = Receta(
             nombre=data['nombre'],
-            pasos=data['pasos'],
+            pasos=pasos,
             es_vegano=data['es_vegano'],
             es_vegetariano=data['es_vegetariano'],
             ingredientes=ingredientes,
@@ -104,3 +107,14 @@ class RecetaService:
 
         return graph_manager.recomendar_receta(recetas, id_ingredientes, id_categorias)
 
+    def retornar_categorias_ingredientes(self):
+        ingredientes = Ingrediente.query.all()
+        categorias = Categoria.query.all()
+
+        ingrediente_schema = IngredienteSchema(many=True)
+        categoria_schema = CategoriaSchema(many=True)
+
+        return {
+            "ingredientes": ingrediente_schema.dump(ingredientes),
+            "categorias": categoria_schema.dump(categorias)
+        }

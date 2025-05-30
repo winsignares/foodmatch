@@ -1,6 +1,7 @@
 from app.config.db import db
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
+from sqlalchemy.types import JSON
 
 from app.models.ingrediente_entity import Ingrediente, IngredienteSchema
 from app.models.associate_tables import receta_ingrediente, receta_categoria
@@ -11,7 +12,7 @@ class Receta(db.Model):
     __tablename__ = 'recetas'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     nombre = db.Column(db.String(255), nullable=False, unique=True)
-    pasos = db.Column(db.Text, nullable=False)
+    pasos = db.Column(JSON, nullable=False)
     es_vegano = db.Column(db.Boolean, nullable=False)
     es_vegetariano = db.Column(db.Boolean, nullable=False)
     foto = db.Column(db.String(255), nullable=False)
