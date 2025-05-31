@@ -40,6 +40,6 @@ def mi_perfil():
 def cerrar_sesion():
     return render_template('index.html')
 
-@usuario_route.route('/Ingredientes/<int:id>', methods=['GET'])
-def mis_ingredientes(id):
-    return render_template('MisIngredientes.html', id_usuario=id)
+@usuario_route.route('/ingredientes', methods=['GET'])
+def mis_ingredientes():
+    return render_template('usuario/MisIngredientes.html', id_usuario=id)

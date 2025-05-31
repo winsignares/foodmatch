@@ -42,8 +42,8 @@ class IngredienteService:
 
     def guardar_ingrediente_en_favoritos(self, data):
         id_usuario = data['id_usuario']
-        id_ingrediente = data['id_ingrediente']
-        self.ingrediente_repository.guardar_ingrediente_en_favoritos(id_ingrediente, id_usuario)
+        lista_ingredientes = data['ingredientes']
+        self.ingrediente_repository.guardar_ingrediente_en_favoritos(lista_ingredientes, id_usuario)
 
     def eliminar_ingrediente_en_favoritos(self, data):
 

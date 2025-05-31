@@ -1,297 +1,280 @@
+async function obtenerIngredientesDelUsuario() {
+    const userId = localStorage.getItem("idUsuario");
+    if (!userId) {
+        throw new Error("Usuario no autenticado");
+    }
+    try {
+        const response = await axios.get(`/api/ingredientes/usuario/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener los ingredientes del usuario:", error);
+        throw error;
+    }
+}
+
+async function cargarIngredientesDelUsuario() {
+    try {
+        const ingredientes = await obtenerIngredientesDelUsuario();
+
+        if (ingredientes.length === 0) {
+            document.getElementById("no-ingredients-message").classList.remove("d-none");
+        } else {
+            const ingredientsGrid = document.getElementById("ingredients-grid");
+            ingredientsGrid.innerHTML = ""; // Limpia el contenedor
+
+            ingredientes.forEach(ingrediente => {
+                const template = document.getElementById("ingredient-card-template").content.cloneNode(true);
+                template.querySelector(".ingredient-name").textContent = ingrediente.nombre;
+                template.querySelector(".ingredient-origin").textContent = ingrediente.origen_nombre;
+
+                // Agregar el atributo data-id al botón de eliminar
+                const deleteButton = template.querySelector(".btn-delete-ingredient");
+                deleteButton.dataset.id = ingrediente.id;
+
+                ingredientsGrid.appendChild(template);
+            });
+        }
+    } catch (error) {
+        document.getElementById("error-ingredients-message").classList.remove("d-none");
+    } finally {
+        document.getElementById("loading-ingredients").classList.add("d-none");
+    }
+}
+
+async function cargarInfoDelModal() {
+    try {
+        let ingredientes = await obtenerListaDeIngredientes(); // Cambiado a let
+        const ingredientesDelUsuario = await obtenerIngredientesDelUsuario();
+
+        // Filtrar ingredientes que el usuario ya tiene
+        ingredientes = ingredientes.filter(
+            ingrediente => !ingredientesDelUsuario.some(i => i.id === ingrediente.id)
+        );
+
+      console.log(ingredientes)
+        const select = document.getElementById("ingredient-select");
+
+        // Limpiar opciones previas
+        select.innerHTML = "";
+
+        // Opción por defecto
+        const optionDefault = document.createElement("option");
+        optionDefault.disabled = true;
+        optionDefault.selected = true;
+        optionDefault.textContent = "Selecciona un ingrediente";
+        select.appendChild(optionDefault);
+
+        // Agregar opciones de ingredientes disponibles
+        ingredientes.forEach(ingrediente => {
+            const option = document.createElement("option");
+            option.value = ingrediente.id;
+            option.textContent = ingrediente.nombre;
+            select.appendChild(option);
+        });
+
+        // También cargamos los ingredientes del usuario en la interfaz
+        await cargarIngredientesDelUsuario();
+
+    } catch (error) {
+        console.error("Error al cargar las opciones de ingredientes:", error);
+    }
+}
+
+
+
+async function obtenerListaDeIngredientes() {
+    try {
+        const response = await axios.get("/api/ingredientes");
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener la lista de ingredientes:", error);
+        return [];
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los ingredientes del usuario
+    cargarIngredientesDelUsuario();
 
-  const ingredientsGrid = document.getElementById("ingredients-grid")
-  const loadingIngredients = document.getElementById("loading-ingredients")
-  const noIngredientsMessage = document.getElementById("no-ingredients-message")
-  const errorIngredientsMessage = document.getElementById("error-ingredients-message")
-  const ingredientCardTemplate = document.getElementById("ingredient-card-template")
-  const searchIngredient = document.getElementById("search-ingredient")
-  const searchIngredientButton = document.getElementById("search-ingredient-button")
-  const originFilter = document.getElementById("origin-filter")
+    // Cuando se abra el modal, cargar las opciones en el select
+    const modal = document.getElementById("addIngredientModal");
+    modal.addEventListener("shown.bs.modal", () => {
+        cargarInfoDelModal();
+    });
+});
 
+document.getElementById("add-ingredient-btn").addEventListener("click", () => {
+    const select = document.getElementById("ingredient-select");
+    const selectedIngredientId = select.value;
+    const selectedIngredientName = select.options[select.selectedIndex].text;
 
-  const addIngredientForm = document.getElementById("add-ingredient-form")
-  const ingredientName = document.getElementById("ingredient-name")
-  const ingredientOrigin = document.getElementById("ingredient-origin")
-  const ingredientIcon = document.getElementById("ingredient-icon")
-  const saveIngredientBtn = document.getElementById("save-ingredient-btn")
+    if (!selectedIngredientId) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Por favor, selecciona un ingrediente antes de agregarlo.'
+        });
+        return;
+    }
 
-  const editIngredientForm = document.getElementById("edit-ingredient-form")
-  const editIngredientId = document.getElementById("edit-ingredient-id")
-  const editIngredientName = document.getElementById("edit-ingredient-name")
-  const editIngredientOrigin = document.getElementById("edit-ingredient-origin")
-  const editIngredientIcon = document.getElementById("edit-ingredient-icon")
-  const updateIngredientBtn = document.getElementById("update-ingredient-btn")
+    const selectedIngredientsList = document.getElementById("selected-ingredients-list");
 
-  const deleteIngredientId = document.getElementById("delete-ingredient-id")
-  const deleteIngredientName = document.getElementById("delete-ingredient-name")
-  const confirmDeleteBtn = document.getElementById("confirm-delete-btn")
+    // Verificar si el ingrediente ya está en la lista
+    const existingIngredient = Array.from(selectedIngredientsList.children).find(
+        item => item.dataset.id === selectedIngredientId
+    );
 
+    if (existingIngredient) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Ingrediente ya agregado',
+            text: 'Este ingrediente ya está en la lista.'
+        });
+        return;
+    }
 
-  let userIngredients = [];
-  let filteredIngredients = [];
+    // Crear un nuevo elemento para la lista
+    const ingredientItem = document.createElement("div");
+    ingredientItem.className = "list-group-item d-flex justify-content-between align-items-center";
+    ingredientItem.dataset.id = selectedIngredientId;
+    ingredientItem.textContent = selectedIngredientName;
 
-  // Cargar ingredientes reales del usuario desde el backend
-  async function loadUserIngredients() {
-    loadingIngredients.classList.remove("d-none");
-    noIngredientsMessage.classList.add("d-none");
-    errorIngredientsMessage.classList.add("d-none");
-    ingredientsGrid.innerHTML = "";
+    // Botón para eliminar el ingrediente de la lista
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn btn-danger btn-sm";
+    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+    deleteButton.addEventListener("click", () => {
+        selectedIngredientsList.removeChild(ingredientItem);
+    });
+
+    ingredientItem.appendChild(deleteButton);
+    selectedIngredientsList.appendChild(ingredientItem);
+});
+
+async function guardarIngredientesEnFavoritos() {
+    const userId = localStorage.getItem("idUsuario");
+    if (!userId) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Usuario no autenticado.'
+        });
+        return;
+    }
+
+    const selectedIngredientsList = document.getElementById("selected-ingredients-list");
+    const ingredientes = Array.from(selectedIngredientsList.children).map(item => parseInt(item.dataset.id));
+
+    if (ingredientes.length === 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'No hay ingredientes seleccionados para guardar.'
+        });
+        return;
+    }
+
+    const data = {
+        id_usuario: parseInt(userId),
+        ingredientes: ingredientes
+    };
 
     try {
-      const response = await axios.get(`/api/ingredientes/${idUsuario}`);
-      userIngredients = response.data;
-      filteredIngredients = [...userIngredients];
+        const response = await axios.post('/api/ingredientes/favoritos', data);
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Ingredientes guardados en favoritos exitosamente.'
+        });
 
-      // Simula carga visual
-      setTimeout(() => {
-        loadingIngredients.classList.add("d-none");
-        renderIngredients();
-      }, 800);
+        // Limpiar la lista de ingredientes seleccionados
+        selectedIngredientsList.innerHTML = "";
     } catch (error) {
-      console.error("Error al cargar ingredientes:", error);
-      loadingIngredients.classList.add("d-none");
-      errorIngredientsMessage.classList.remove("d-none");
+        console.error("Error al guardar ingredientes en favoritos:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron guardar los ingredientes en favoritos.'
+        });
     }
-  }
+    cargarIngredientesDelUsuario()
+}
 
-  // Renderizar ingredientes en pantalla
-  function renderIngredients() {
-    ingredientsGrid.innerHTML = "";
+// Asignar el evento al botón de guardar
+document.getElementById("save-ingredient-btn").addEventListener("click", guardarIngredientesEnFavoritos);
 
-    if (filteredIngredients.length === 0) {
-      noIngredientsMessage.classList.remove("d-none");
-      return;
+async function eliminarIngredienteDeFavoritos(idIngrediente) {
+    const userId = localStorage.getItem("idUsuario");
+    if (!userId) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Usuario no autenticado.'
+        });
+        return;
     }
 
-    filteredIngredients.forEach((ingredient) => {
-      const ingredientCard = document.importNode(ingredientCardTemplate.content, true);
-
-      const iconElement = ingredientCard.querySelector(".ingredient-icon i");
-
-      if (!ingredient.icon) {
-        iconElement.className = "";
-        iconElement.textContent = ingredient.name.charAt(0).toUpperCase();
-        iconElement.style.fontWeight = "bold";
-        iconElement.style.fontSize = "2.5rem";
-      } else {
-        iconElement.className = `fas ${ingredient.icon}`;
-      }
-
-      ingredientCard.querySelector(".ingredient-name").textContent = ingredient.name;
-      ingredientCard.querySelector(".ingredient-origin").textContent = `Categoría: ${ingredient.origin}`;
-
-      const card = ingredientCard.querySelector(".ingredient-card");
-      card.dataset.id = ingredient.id;
-
-      const editButton = ingredientCard.querySelector(".btn-edit-ingredient");
-      editButton.addEventListener("click", () => {
-        openEditModal(ingredient);
-      });
-
-      const deleteButton = ingredientCard.querySelector(".btn-delete-ingredient");
-      deleteButton.addEventListener("click", () => {
-        openDeleteModal(ingredient);
-      });
-
-      ingredientsGrid.appendChild(ingredientCard);
+    // Mostrar SweetAlert de confirmación
+    const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Este ingrediente será eliminado de tus favoritos.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
     });
-  }
 
-  function filterIngredients() {
-    const searchTerm = searchIngredient.value.trim().toLowerCase()
-    const originValue = originFilter.value
-
-    filteredIngredients = userIngredients.filter((ingredient) => {
-      const nameMatch = ingredient.name.toLowerCase().includes(searchTerm)
-      const originMatch = !originValue || ingredient.origin === originValue
-      return nameMatch && originMatch
-    })
-
-    loadUserIngredients()
-  }
-
-  // Abrir modal de edición
-  function openEditModal(ingredient) {
-    editIngredientId.value = ingredient.id
-    editIngredientName.value = ingredient.name
-    editIngredientOrigin.value = ingredient.origin
-    editIngredientIcon.value = ingredient.icon || ""
-
-    // Mostrar el modal (Bootstrap lo maneja automáticamente con data-bs-target)
-  }
-
-  // Abrir modal de eliminación
-  function openDeleteModal(ingredient) {
-    deleteIngredientId.value = ingredient.id
-    deleteIngredientName.textContent = ingredient.name
-
-    // Mostrar el modal manualmente
-    const deleteModal = new bootstrap.Modal(document.getElementById("deleteIngredientModal"))
-    deleteModal.show()
-  }
-
-  // Guardar nuevo ingrediente
-  function saveIngredient() {
-    // Validar el formulario
-    if (!addIngredientForm.checkValidity()) {
-      addIngredientForm.classList.add("was-validated")
-      return
+    if (!result.isConfirmed) {
+        return; // Si el usuario cancela, no se ejecuta la acción
     }
 
-    // Crear nuevo ingrediente
-    const newIngredient = {
-      id: userIngredients.length > 0 ? Math.max(...userIngredients.map((i) => i.id)) + 1 : 1,
-      name: ingredientName.value.trim(),
-      origin: ingredientOrigin.value,
-      icon: ingredientIcon.value,
+    const data = {
+        id_usuario: parseInt(userId),
+        id_ingrediente: idIngrediente
+    };
+
+    try {
+            console.log("Datos enviados:", data); // Depuración
+
+        const response = await axios.delete('/api/ingredientes/favoritos', { data });
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Ingrediente eliminado de favoritos exitosamente.'
+        });
+
+        // Recargar los ingredientes del usuario
+        cargarIngredientesDelUsuario();
+    } catch (error) {
+        console.error("Error al eliminar ingrediente de favoritos:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo eliminar el ingrediente de favoritos.'
+        });
     }
-
-    // Añadir a la lista de ingredientes
-    userIngredients.push(newIngredient)
-    filteredIngredients = [...userIngredients]
-
-    // Cerrar el modal
-    const addModal = bootstrap.Modal.getInstance(document.getElementById("addIngredientModal"))
-    addModal.hide()
-
-    // Limpiar el formulario
-    addIngredientForm.reset()
-    addIngredientForm.classList.remove("was-validated")
-
-    // Recargar la lista de ingredientes
-    loadUserIngredients()
-
-    // Mostrar mensaje de éxito
-    showToast("Ingrediente añadido correctamente")
-  }
-
-  // Actualizar ingrediente existente
-  function updateIngredient() {
-    // Validar el formulario
-    if (!editIngredientForm.checkValidity()) {
-      editIngredientForm.classList.add("was-validated")
-      return
+}
+document.getElementById("ingredients-grid").addEventListener("click", (event) => {
+    const button = event.target.closest(".btn-delete-ingredient");
+    if (button) {
+        const idIngrediente = button.dataset.id; // Asegúrate de que el botón tenga el atributo `data-id`
+        eliminarIngredienteDeFavoritos(idIngrediente);
     }
+});
 
-    const id = Number.parseInt(editIngredientId.value)
-    const ingredientIndex = userIngredients.findIndex((i) => i.id === id)
 
-    if (ingredientIndex !== -1) {
-      // Actualizar ingrediente
-      userIngredients[ingredientIndex] = {
-        ...userIngredients[ingredientIndex],
-        name: editIngredientName.value.trim(),
-        origin: editIngredientOrigin.value,
-        icon: editIngredientIcon.value,
-      }
+document.getElementById("search-ingredient").addEventListener("input", () => {
+    const searchText = document.getElementById("search-ingredient").value.toLowerCase();
+    const ingredientCards = document.querySelectorAll("#ingredients-grid .ingredient-card");
 
-      // Actualizar ingredientes filtrados
-      filteredIngredients = filteredIngredients.map((i) => (i.id === id ? userIngredients[ingredientIndex] : i))
-
-      // Cerrar el modal
-      const editModal = bootstrap.Modal.getInstance(document.getElementById("editIngredientModal"))
-      editModal.hide()
-
-      // Limpiar el formulario
-      editIngredientForm.classList.remove("was-validated")
-
-      // Recargar la lista de ingredientes
-      loadUserIngredients()
-
-      // Mostrar mensaje de éxito
-      showToast("Ingrediente actualizado correctamente")
-    }
-  }
-
-  // Eliminar ingrediente
-  function deleteIngredient() {
-    const id = Number.parseInt(deleteIngredientId.value)
-
-    // Eliminar de la lista de ingredientes
-    userIngredients = userIngredients.filter((i) => i.id !== id)
-    filteredIngredients = filteredIngredients.filter((i) => i.id !== id)
-
-    // Cerrar el modal
-    const deleteModal = bootstrap.Modal.getInstance(document.getElementById("deleteIngredientModal"))
-    deleteModal.hide()
-
-    // Recargar la lista de ingredientes
-    loadUserIngredients()
-
-    // Mostrar mensaje de éxito
-    showToast("Ingrediente eliminado correctamente")
-  }
-
-  // Función para mostrar toast (mensaje de notificación)
-  function showToast(message) {
-    // Crear elemento toast
-    const toastContainer = document.createElement("div")
-    toastContainer.className = "position-fixed bottom-0 end-0 p-3"
-    toastContainer.style.zIndex = "11"
-
-    const toastElement = document.createElement("div")
-    toastElement.className = "toast"
-    toastElement.setAttribute("role", "alert")
-    toastElement.setAttribute("aria-live", "assertive")
-    toastElement.setAttribute("aria-atomic", "true")
-
-    toastElement.innerHTML = `
-              <div class="toast-header">
-                  <strong class="me-auto">FoodMatch</strong>
-                  <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-              </div>
-              <div class="toast-body">
-                  ${message}
-              </div>
-          `
-
-    toastContainer.appendChild(toastElement)
-    document.body.appendChild(toastContainer)
-
-    // Inicializar y mostrar el toast
-    const toast = new bootstrap.Toast(toastElement)
-    toast.show()
-
-    // Eliminar el toast después de que se oculte
-    toastElement.addEventListener("hidden.bs.toast", () => {
-      document.body.removeChild(toastContainer)
-    })
-  }
-
-  // Event Listeners
-
-  // Búsqueda de ingredientes
-  searchIngredientButton.addEventListener("click", filterIngredients)
-
-  // Permitir búsqueda con Enter
-  searchIngredient.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      filterIngredients()
-    }
-  })
-
-  // Filtrar por origen
-  originFilter.addEventListener("change", filterIngredients)
-
-  // Guardar nuevo ingrediente
-  saveIngredientBtn.addEventListener("click", saveIngredient)
-
-  // Actualizar ingrediente
-  updateIngredientBtn.addEventListener("click", updateIngredient)
-
-  // Eliminar ingrediente
-  confirmDeleteBtn.addEventListener("click", deleteIngredient)
-
-  // Cargar ingredientes al iniciar
-  loadUserIngredients()
-
-  // Initialize Bootstrap modals (moved to ensure Bootstrap is available)
-  const addIngredientModalElement = document.getElementById("addIngredientModal")
-  const editIngredientModalElement = document.getElementById("editIngredientModal")
-  const deleteIngredientModalElement = document.getElementById("deleteIngredientModal")
-
-  const addIngredientModal = new bootstrap.Modal(addIngredientModalElement)
-  const editIngredientModal = new bootstrap.Modal(editIngredientModalElement)
-  const deleteIngredientModal = new bootstrap.Modal(deleteIngredientModalElement)
-})
+    ingredientCards.forEach(card => {
+        const ingredientName = card.querySelector(".ingredient-name").textContent.toLowerCase();
+        if (ingredientName.includes(searchText)) {
+            card.parentElement.style.display = ""; // Mostrar tarjeta
+        } else {
+            card.parentElement.style.display = "none"; // Ocultar tarjeta
+        }
+    });
+});
