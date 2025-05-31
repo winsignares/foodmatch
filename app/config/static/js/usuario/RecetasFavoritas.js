@@ -1,111 +1,42 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const favoritesContainer = document.getElementById('favorites-container');
-    const loadingPlaceholder = document.getElementById('loading-placeholder');
-    const noFavoritesMessage = document.getElementById('no-favorites-message');
-    const errorMessage = document.getElementById('error-message');
-    const recipeCardTemplate = document.getElementById('recipe-card-template');
-    const sidebarCollapse = document.getElementById('sidebarCollapse');
+// import { obtenerRecetasFavoritas } from '../api/UsuarioRecetasApi.js';
 
-    // Toggle para el sidebar
-    sidebarCollapse.addEventListener('click', function() {
-        sidebar.classList.toggle('active');
-        content.classList.toggle('active');
-        
-        // En móvil, controlar la posición del sidebar
-        if (window.innerWidth <= 768) {
-            if (sidebar.style.marginLeft === '-250px' || sidebar.style.marginLeft === '') {
-                sidebar.style.marginLeft = '0';
-                // Añadir overlay para cerrar el sidebar al hacer clic fuera
-                addOverlay();
-            } else {
-                sidebar.style.marginLeft = '-250px';
-                // Remover overlay
-                removeOverlay();
-            }
+document.addEventListener('DOMContentLoaded', async () => {
+    const usuarioId = 4; // ejemplo, reemplaza con ID dinámico si aplica
+    const container = document.getElementById('recipes-row');
+    const errorMsg = document.getElementById('error-message');
+    const emptyMsg = document.getElementById('no-favorites-message');
+
+    try {
+        const recetas = await obtenerRecetasFavoritas(usuarioId);
+        if (recetas.length === 0) {
+            emptyMsg.classList.remove('d-none');
+        } else {
+            recetas.forEach(r => {
+                const card = document.createElement('div');
+                card.className = 'col-md-4 mb-4';
+                card.innerHTML = `
+                    <div class="card">
+                        <img src="${r.imagen_url}" class="card-img-top" alt="${r.nombre}">
+                        <div class="card-body">
+                            <h5 class="card-title">${r.nombre}</h5>
+                            <p class="card-text">${r.descripcion}</p>
+                        </div>
+                    </div>`;
+                container.appendChild(card);
+            });
         }
-    });
-
-    // simula llamado de  backend API 
-    async function fetchFavoriteRecipes(sortOption = 'date_desc') {
-        try {
-            
-            // const response = await fetch(`/api/favorite-recipes?sort=${sortOption}`);
-            // const recipes = await response.json();
-
-            const recipes = [
-                {
-                    id: 1,
-                    title: 'Tacos al Pastor',
-                    image: '../static/resources/pasta-carb-10.png',
-                    cuisine: 'Mexicana',
-                    dateAdded: '2025-04-20'
-                },
-                {
-                    id: 2,
-                    title: 'Enchiladas Verdes',
-                    image: '../static/resources/pasta-carb-10.png',
-                    cuisine: 'Mexicana',
-                    dateAdded: '2025-04-15'
-                },
-                {
-                    id: 3,
-                    title: 'Chiles Rellenos',
-                    image: '../static/resources/pasta-carb-10.png',
-                    cuisine: 'Mexicana',
-                    dateAdded: '2025-04-10'
-                }
-            ];
-
-            // Simulate sorting
-            if (sortOption === 'title_asc') {
-                recipes.sort((a, b) => a.title.localeCompare(b.title));
-            } else if (sortOption === 'title_desc') {
-                recipes.sort((a, b) => b.title.localeCompare(a.title));
-            } else if (sortOption === 'date_desc') {
-                recipes.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-            }
-
-            return recipes;
-        } catch (error) {
-            console.error('Error fetching recipes:', error);
-            throw error;
-        }
+    } catch {
+        errorMsg.classList.remove('d-none');
     }
+});
 
-    
-    function renderRecipes(recipes) {
-        favoritesContainer.innerHTML = ''; 
-        if (recipes.length === 0) {
-            noFavoritesMessage.classList.remove('d-none');
-            return;
-        }
-
-        noFavoritesMessage.classList.add('d-none');
-        recipes.forEach(recipe => {
-            const cardClone = recipeCardTemplate.content.cloneNode(true);
-            const card = cardClone.querySelector('.recipe-card');
-            const img = card.querySelector('.card-img-top');
-            const title = card.querySelector('.card-title');
-            const badge = card.querySelector('.badge');
-            const viewButton = card.querySelector('.btn-ver');
-
-            img.src = recipe.image;
-            img.alt = `Imagen de ${recipe.title}`;
-            title.textContent = recipe.title;
-            badge.textContent = recipe.cuisine;
-            viewButton.href = `VerReceta.html?id=${recipe.id}`; // Adjust URL as needed
-
-            favoritesContainer.appendChild(cardClone);
-        });
-    }
-
-    
-    async function loadRecipes(sortOption) {
+    async function loadRecipes(id, sortOption) {
         loadingPlaceholder.classList.remove('d-none');
         errorMessage.classList.add('d-none');
+        noFavoritesMessage.classList.add('d-none');
 
         try {
-            const recipes = await fetchFavoriteRecipes(sortOption);
+            const recipes = await fetchFavoriteRecipes(id, sortOption);
             renderRecipes(recipes);
         } catch (error) {
             errorMessage.classList.remove('d-none');
@@ -114,15 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
-    loadRecipes('date_desc');
+    // Obtener ID de usuario desde URL o un valor por defecto
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id') || 1; // Cambia '1' por el ID por defecto si es necesario
+    loadRecipes(id, 'date_desc');
 
-    
+    // Manejo de ordenación
     document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
             const sortOption = e.target.dataset.sort;
-            loadRecipes(sortOption);
+            loadRecipes(id, sortOption);
         });
     });
-});
