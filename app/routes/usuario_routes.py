@@ -29,8 +29,8 @@ def buscar_receta():
     return render_template('buscar_receta.html')
 
 @usuario_route.route('/recetas/<int:id>', methods=['GET'])
-def ver_receta():
-    return render_template('/usuario/VerReceta.html')
+def ver_receta(id):
+    return render_template('/usuario/VerReceta.html', id_receta=id)
 
 @usuario_route.route('/recetas/editar/<int:id>', methods=['GET'])
 def mi_perfil():

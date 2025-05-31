@@ -40,7 +40,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <span class="badge bg-mexico">${cocina}</span>
                     </div>
-                    <a href="ViewRecipe.html?id=${receta.id}" class="btn btn-ver mt-2">Ver</a>
+                    <a href="/recetas/${receta.id}" class="btn btn-ver mt-2">Ver</a>
                 </div>
             </div>
                 `;
