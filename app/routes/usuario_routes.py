@@ -32,15 +32,13 @@ def buscar_receta():
 def ver_receta(id):
     return render_template('/usuario/VerReceta.html', id_receta=id)
 
-@usuario_route.route('/recetas/editar/<int:id>', methods=['GET'])
+@usuario_route.route('/perfil', methods=['GET'])
 def mi_perfil():
-    return render_template('mi_perfil.html')
+    return render_template('usuario/Profile.html')
 
 @usuario_route.route('/log-out', methods=['GET'])
 def cerrar_sesion():
     return render_template('index.html')
-
-
 
 @usuario_route.route('/Ingredientes/<int:id>', methods=['GET'])
 def mis_ingredientes(id):

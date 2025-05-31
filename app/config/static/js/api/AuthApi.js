@@ -40,7 +40,7 @@ async function registrarUsuario(event) {
             Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: response.data.message, //usuario registrado exitosamente
+                title: response.data.message,
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
@@ -87,6 +87,7 @@ async function login(event){
             }
         });
         if( response.status === 200 ){
+            localStorage.setItem("idUsuario", response.data.id);
             if(response.data.id_rol === 1){
                 window.location.href = '/admin/panel';
             }else{
