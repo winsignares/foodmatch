@@ -36,9 +36,6 @@
                 <li class="middle-section">
                     <a href="MisIngredientes.html"><i class="fas fa-carrot"></i> <span class="menu-text">Mis Ingredientes</span></a>
                 </li>
-                <li class="middle-section">
-                    <a href="ProponerReceta.html"><i class="fas fa-plus"></i> <span class="menu-text">Proponer Receta</span></a>
-                </li>
                 
                 <!-- Bottom section -->
                 <li class="bottom-section">
@@ -173,8 +170,9 @@
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Custom JS -->
-       <script src="{{ url_for('static', filename='js/api/VerRecetaApi.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/usuario/VerRecetaApi.js') }}"></script>
     <script src="{{ url_for('static', filename='js/usuario/scriptUserPage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth/AuthUsuario.js') }}"></script>
     
 </body>
 </html>

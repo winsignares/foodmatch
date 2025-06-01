@@ -11,23 +11,25 @@ async function obtenerIngredientesDelUsuario() {
         throw error;
     }
 }
-
 async function cargarIngredientesDelUsuario() {
+    const ingredientsGrid = document.getElementById("ingredients-grid");
+    const noIngredientsMessage = document.getElementById("no-ingredients-message");
+    const loading = document.getElementById("loading-ingredients");
+
+    ingredientsGrid.innerHTML = ""; // <--- Asegura limpiar SIEMPRE el contenedor
+
     try {
         const ingredientes = await obtenerIngredientesDelUsuario();
 
         if (ingredientes.length === 0) {
-            document.getElementById("no-ingredients-message").classList.remove("d-none");
+            noIngredientsMessage.classList.remove("d-none");
         } else {
-            const ingredientsGrid = document.getElementById("ingredients-grid");
-            ingredientsGrid.innerHTML = ""; // Limpia el contenedor
+            noIngredientsMessage.classList.add("d-none");
 
             ingredientes.forEach(ingrediente => {
                 const template = document.getElementById("ingredient-card-template").content.cloneNode(true);
                 template.querySelector(".ingredient-name").textContent = ingrediente.nombre;
                 template.querySelector(".ingredient-origin").textContent = ingrediente.origen_nombre;
-
-                // Agregar el atributo data-id al botón de eliminar
                 const deleteButton = template.querySelector(".btn-delete-ingredient");
                 deleteButton.dataset.id = ingrediente.id;
 
@@ -37,9 +39,10 @@ async function cargarIngredientesDelUsuario() {
     } catch (error) {
         document.getElementById("error-ingredients-message").classList.remove("d-none");
     } finally {
-        document.getElementById("loading-ingredients").classList.add("d-none");
+        loading.classList.add("d-none");
     }
 }
+
 
 async function cargarInfoDelModal() {
     try {
@@ -197,7 +200,7 @@ async function guardarIngredientesEnFavoritos() {
             text: 'No se pudieron guardar los ingredientes en favoritos.'
         });
     }
-    cargarIngredientesDelUsuario()
+    await cargarIngredientesDelUsuario()
 }
 
 // Asignar el evento al botón de guardar
@@ -236,9 +239,8 @@ async function eliminarIngredienteDeFavoritos(idIngrediente) {
     };
 
     try {
-            console.log("Datos enviados:", data); // Depuración
-
         const response = await axios.delete('/api/ingredientes/favoritos', { data });
+
         Swal.fire({
             icon: 'success',
             title: 'Éxito',
@@ -246,7 +248,7 @@ async function eliminarIngredienteDeFavoritos(idIngrediente) {
         });
 
         // Recargar los ingredientes del usuario
-        cargarIngredientesDelUsuario();
+
     } catch (error) {
         console.error("Error al eliminar ingrediente de favoritos:", error);
         Swal.fire({
@@ -255,6 +257,7 @@ async function eliminarIngredienteDeFavoritos(idIngrediente) {
             text: 'No se pudo eliminar el ingrediente de favoritos.'
         });
     }
+await cargarIngredientesDelUsuario();
 }
 document.getElementById("ingredients-grid").addEventListener("click", (event) => {
     const button = event.target.closest(".btn-delete-ingredient");

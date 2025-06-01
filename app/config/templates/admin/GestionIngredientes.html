@@ -35,11 +35,11 @@
                 <li class="middle-section">
                     <a href="/admin/categorias"><i class="fas fa-tags"></i> Gestión de Categorías</a>
                 </li>
-                <li class="middle-section">
-                    <a href="/admin/aprobar-recetas"><i class="fas fa-check-circle"></i> Aprobación de Recetas</a>
-                </li>
+
                 <li class="bottom-section">
-                    <a href="/"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    <button onclick="CerrarSesion()" class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                         <i class="fas fa-sign-out-alt me-2"></i> <span class="menu-text">Cerrar Sesión</span>
+                     </button>
                 </li>
             </ul>
         </nav>
@@ -174,7 +174,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ url_for('static', filename='js/admin/UserAdmin.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/api/IngredienteApi.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/admin/IngredienteApi.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth/AuthAdmin.js') }}"></script>
 </body>
 </html>
