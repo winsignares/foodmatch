@@ -116,7 +116,7 @@ def cambiar_foto_receta(id_receta):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@receta_bp.route('/recomendar/',  methods=['GET'])
+@receta_bp.route('/recomendar/',  methods=['POST'])
 def recomendar_recetas():
     try:
         data = request.get_json()

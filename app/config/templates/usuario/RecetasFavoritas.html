@@ -34,7 +34,7 @@
                             Recetas</span></a>
                 </li>
                 <li class="middle-section active">
-                    <a href="RecetasFavoritas.html"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas
+                    <a href="/recetas/favoritas"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas
                             Favoritas</span></a>
                 </li>
                 <li class="middle-section ">
@@ -45,8 +45,9 @@
 
                 <!-- Bottom section -->
                 <li class="bottom-section">
-                    <a href="/index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> <span
-                            class="menu-text">Cerrar Sesión</span></a>
+                     <button onclick="CerrarSesion()" class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                         <i class="fas fa-sign-out-alt me-2"></i> <span class="menu-text">Cerrar Sesión</span>
+                     </button>
                 </li>
             </ul>
         </nav>
@@ -129,9 +130,9 @@
     <!-- Custom JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{ url_for('static', filename='js/api/UsuarioRecetasApi.js') }}"></script>
     <script src="{{ url_for('static', filename='js/usuario/RecetasFavoritas.js') }}"></script>
-<script src="{{ url_for('static', filename='js/auth/AuthUsuario.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth/AuthUsuario.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/usuario/scriptUserPage.js') }}"></script>
 </body>
 
 </html>

@@ -16,18 +16,6 @@ def login():
 def user_page():
     return render_template('usuario/userPage.html')
 
-@usuario_route.route('/recetas', methods=['GET'])
-def proponer_receta():
-    return render_template('proponer_receta.html')
-
-# @usuario_route.route('/recetas/favoritos/<int:id>', methods=['GET'])
-# def recetas_favoritas():
-#     return render_template('RecetasFavoritas.html')
-
-@usuario_route.route('/recetas/buscar', methods=['GET'])
-def buscar_receta():
-    return render_template('buscar_receta.html')
-
 @usuario_route.route('/recetas/<int:id>', methods=['GET'])
 def ver_receta(id):
     return render_template('/usuario/VerReceta.html', id_receta=id)
@@ -43,3 +31,7 @@ def cerrar_sesion():
 @usuario_route.route('/ingredientes', methods=['GET'])
 def mis_ingredientes():
     return render_template('usuario/MisIngredientes.html', id_usuario=id)
+
+@usuario_route.route('/recetas/favoritas', methods=['GET'])
+def recetas_favoritas():
+    return render_template('usuario/RecetasFavoritas.html')

@@ -82,3 +82,38 @@ veganDiv.className = `diet-item${receta.es_vegano ? "" : " diet-no"}`;
 veganDiv.innerHTML = `<i class="fas fa-seedling"></i> <span>${receta.es_vegano ? "Vegano" : "No vegano"}</span>`;
 
 }
+
+async function guardarRecetaFavorita(idUsuario, idReceta) {
+    try {
+        const payload = {
+            id_usuario: idUsuario,
+            id_receta: idReceta
+        };
+
+        const response = await axios.post('/api/recetas/favoritos', payload);
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: response.data.message || 'Receta guardada en favoritos.'
+        });
+    } catch (error) {
+        console.error('Error al guardar la receta como favorita:', error);
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo guardar la receta como favorita.'
+        });
+    }
+}
+
+// Asignar el evento al botón de guardar
+document.getElementById('btn-favorite').addEventListener('click', () => {
+    const idUsuario = localStorage.getItem("idUsuario"); // Reemplaza con el ID dinámico del usuario
+    const path = window.location.pathname;
+    const partes = path.split('/');
+    const idReceta = partes[2];
+
+    guardarRecetaFavorita(idUsuario, idReceta);
+});

@@ -34,7 +34,7 @@
                             Recetas</span></a>
                 </li>
                 <li class="middle-section">
-                    <a href="RecetasFavoritas.html"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas
+                    <a href="/recetas/favoritas"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas
                             Favoritas</span></a>
                 </li>
                 <li class="middle-section ">
@@ -45,8 +45,9 @@
 
                 <!-- Bottom section -->
                 <li class="bottom-section">
-                    <a href="/index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> <span
-                            class="menu-text">Cerrar Sesión</span></a>
+                     <button onclick="CerrarSesion()" class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                         <i class="fas fa-sign-out-alt me-2"></i> <span class="menu-text">Cerrar Sesión</span>
+                     </button>
                 </li>
             </ul>
         </nav>
@@ -76,7 +77,7 @@
                 </div>
             </nav>
 
-            <!-- Search Bar -->
+           <!-- Search Bar -->
             <div class="container search-container my-5">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
@@ -85,19 +86,16 @@
                             <button class="btn btn-search" type="button" id="search-button">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="btn btn-categories dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                id="category-button">
-                                Categorías
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" id="category-dropdown">
-                                <li><a class="dropdown-item" href="#" data-category="mexicana">Mexicana</a></li>
-                                <li><a class="dropdown-item" href="#" data-category="italiana">Italiana</a></li>
-                                <li><a class="dropdown-item" href="#" data-category="asiatica">Asiática</a></li>
-                                <li><a class="dropdown-item" href="#" data-category="vegetariana">Vegetariana</a></li>
-                            </ul>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Botón de recomendación -->
+            <div class="container text-center my-4">
+                <button class="btn btn-submit btn-lg" id="recommendation-button">
+                    <i class="fas fa-lightbulb"></i> Quiero una recomendación
+                </button>
             </div>
 
 
@@ -112,7 +110,44 @@
                 </div>
             </div>
 
+        <!-- Modal para recomendación de recetas -->
+            <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="recommendationModalLabel">Recomendación de Recetas</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="recommendation-form">
+                            <div class="mb-3">
+                                <label for="categories-select" class="form-label">Selecciona una categoría:</label>
+                                <div class="d-flex gap-2">
+                                    <select id="categories-select" class="form-control" style="width: 100%;" required></select>
+                                    <button type="button" class="btn btn-outline-primary" id="add-category-button">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
 
+                            <!-- Lista de categorías seleccionadas -->
+                            <ul id="selected-categories-list" class="list-group mb-3"></ul>
+
+                            <div class="alert alert-info text-center">
+                                <p class="mb-2">Usaremos los ingredientes que tienes guardados.</p>
+                                <a href="/ingredientes" id="view-ingredients-button" class="btn btn-outline-primary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-carrot me-2"></i> Ver mis ingredientes
+                                </a>
+                            </div>
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-submit" id="submit-recommendation">Obtener recomendación</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <footer class="footer mt-5 py-4 text-center">
                 <div class="container">
@@ -131,8 +166,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ url_for('static', filename='js/usuario/UsuarioRecetasApi.js') }}"></script>
     <script src="{{ url_for('static', filename='js/usuario/scriptUserPage.js') }}"></script>
-<script src="{{ url_for('static', filename='js/auth/AuthUsuario.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/auth/AuthUsuario.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/usuario/RecomendacionRecetas.js') }}"></script>
 
 </body>
 

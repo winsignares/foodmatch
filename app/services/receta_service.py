@@ -1,9 +1,12 @@
 import os
 
 from app.models.recetas_entity import Receta, RecetaSchema
+from app.models.usuario_entity import Usuario
 from app.repository.receta_repository import RecetaRepository
+from app.repository.ingrediente_repository import IngredienteRepository
 
 from app.models.ingrediente_entity import IngredienteSchema
+
 from app.models.categoria_entity import CategoriaSchema
 
 from app.models.ingrediente_entity import Ingrediente
@@ -19,6 +22,7 @@ class RecetaService:
     def __init__(self):
         from app.main import app
         self.receta_repository = RecetaRepository()
+        self.ingrediente_repository = IngredienteRepository()
         self.file_manager = FileManager(
             upload_folder=os.path.join(app.config["STATIC_FOLDER"], "uploads", "recetas")
         )
@@ -98,8 +102,12 @@ class RecetaService:
         self.receta_repository.agregar_receta(receta)
 
     def recomendar_recetas(self, data):
+        id_usuario = data['id_usuario']
 
-        id_ingredientes = data['ingredientes']
+        ingredientes = self.ingrediente_repository.obtener_ingredientes_por_usuario(id_usuario)
+
+        id_ingredientes = [ingrediente.id for ingrediente in ingredientes]
+
         id_categorias = data['categorias']
         recetas = self.recetas_schema.dump(self.receta_repository.obtener_recetas())
 

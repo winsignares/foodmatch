@@ -1,60 +1,105 @@
-// import { obtenerRecetasFavoritas } from '../api/UsuarioRecetasApi.js';
-
 document.addEventListener('DOMContentLoaded', async () => {
-    const usuarioId = 4; // ejemplo, reemplaza con ID dinámico si aplica
+    const usuarioId = localStorage.getItem('idUsuario'); // Reemplaza con el ID dinámico del usuario
     const container = document.getElementById('recipes-row');
     const errorMsg = document.getElementById('error-message');
     const emptyMsg = document.getElementById('no-favorites-message');
 
     try {
         const recetas = await obtenerRecetasFavoritas(usuarioId);
+
         if (recetas.length === 0) {
             emptyMsg.classList.remove('d-none');
         } else {
-            recetas.forEach(r => {
-                const card = document.createElement('div');
-                card.className = 'col-md-4 mb-4';
-                card.innerHTML = `
-                    <div class="card">
-                        <img src="${r.imagen_url}" class="card-img-top" alt="${r.nombre}">
-                        <div class="card-body">
-                            <h5 class="card-title">${r.nombre}</h5>
-                            <p class="card-text">${r.descripcion}</p>
-                        </div>
-                    </div>`;
-                container.appendChild(card);
-            });
+            renderizarRecetasFavoritas(recetas, container);
         }
-    } catch {
+    } catch (error) {
+        console.error('Error al cargar las recetas favoritas:', error);
         errorMsg.classList.remove('d-none');
     }
 });
 
-    async function loadRecipes(id, sortOption) {
-        loadingPlaceholder.classList.remove('d-none');
-        errorMessage.classList.add('d-none');
-        noFavoritesMessage.classList.add('d-none');
-
-        try {
-            const recipes = await fetchFavoriteRecipes(id, sortOption);
-            renderRecipes(recipes);
-        } catch (error) {
-            errorMessage.classList.remove('d-none');
-        } finally {
-            loadingPlaceholder.classList.add('d-none');
-        }
+async function obtenerRecetasFavoritas(usuarioId) {
+    try {
+        const response = await axios.get(`/api/recetas/favoritos/${usuarioId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener las recetas favoritas:', error);
+        throw error;
     }
+}
 
-    // Obtener ID de usuario desde URL o un valor por defecto
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id') || 1; // Cambia '1' por el ID por defecto si es necesario
-    loadRecipes(id, 'date_desc');
+function renderizarRecetasFavoritas(recetas, container) {
+    container.innerHTML = ''; // Limpiar el contenedor
 
-    // Manejo de ordenación
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const sortOption = e.target.dataset.sort;
-            loadRecipes(id, sortOption);
-        });
+    recetas.forEach(receta => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+            <div class="card shadow-sm">
+                <img src="../../static${receta.foto}" class="card-img-top" alt="${receta.nombre}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 style="color: #FD7E14;" class="card-title"><strong>${receta.nombre}</strong></h5>
+                    <p class="card-text text-muted">${receta.categorias.map(cat => cat.nombre).join(', ')}</p>
+                    <p class="card-text"><strong>Vegano:</strong> ${receta.es_vegano ? 'Sí' : 'No'}</p>
+                    <p class="card-text"><strong>Vegetariano:</strong> ${receta.es_vegetariano ? 'Sí' : 'No'}</p>
+                    <div class="d-flex justify-content-between mt-3">
+                        <button class="btn btn-submit btn-sm" onclick="verReceta(${receta.id})">
+                            <i class="fas fa-eye"></i> Ver Receta
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarRecetaFavorita(${receta.id})">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        container.appendChild(card);
     });
+}
+
+function verReceta(idReceta) {
+    window.location.href = `/recetas/${idReceta}`;
+}
+
+async function eliminarRecetaFavorita(idReceta) {
+    const usuarioId = localStorage.getItem('idUsuario'); // Reemplaza con el ID dinámico del usuario
+
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Esta acción eliminará la receta de tus favoritos.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const payload = {
+                    id_usuario: usuarioId,
+                    id_receta: idReceta
+                };
+
+                await axios.delete('/api/recetas/favoritos', { data: payload });
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Eliminado',
+                    text: 'La receta se ha eliminado de tus favoritos.'
+                });
+
+                // Recargar las recetas favoritas
+                const container = document.getElementById('recipes-row');
+                const recetas = await obtenerRecetasFavoritas(usuarioId);
+                renderizarRecetasFavoritas(recetas, container);
+            } catch (error) {
+                console.error('Error al eliminar la receta de favoritos:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo eliminar la receta de favoritos.'
+                });
+            }
+        }
+    });
+}

@@ -23,7 +23,7 @@ class GraphManager:
                     self.graph.add_node(categoria_id, tipo='categoria', nombre=categoria['nombre'])
                 self.graph.add_edge(receta_id, categoria_id, weight=2)
 
-    def recomendar_receta(self, recetas, id_ingredientes, id_categorias, min_match=0.7):
+    def recomendar_receta(self, recetas, id_ingredientes, id_categorias, min_match=0.5):
         self.graph.clear()  # Limpiar grafo antes
         self.construir_grafo(recetas)
 
