@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../../static/css/Userpage.css">
 </head>
+
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
@@ -26,21 +28,24 @@
                     <a href="/panel"><i class="fas fa-search"></i> <span class="menu-text">Buscar Recetas</span></a>
                 </li>
                 <li class="middle-section">
-                    <a href="/recetas/favoritas"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas Favoritas</span></a>
+                    <a href="/recetas/favoritas"><i class="fas fa-bookmark"></i> <span class="menu-text">Recetas
+                            Favoritas</span></a>
                 </li>
                 <li class="middle-section">
-                    <a href="/ingredientes"><i class="fas fa-carrot"></i> <span class="menu-text">Mis Ingredientes</span></a>
+                    <a href="/ingredientes"><i class="fas fa-carrot"></i> <span class="menu-text">Mis
+                            Ingredientes</span></a>
                 </li>
 
                 <li class="bottom-section">
-                     <button onclick="CerrarSesion()" class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
-                         <i class="fas fa-sign-out-alt me-2"></i> <span class="menu-text">Cerrar Sesión</span>
-                     </button>
+                    <button onclick="CerrarSesion()"
+                        class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-sign-out-alt me-2"></i> <span class="menu-text">Cerrar Sesión</span>
+                    </button>
                 </li>
             </ul>
         </nav>
 
-        <!-- Page Content -->
+      
         <div id="content">
             <!-- Top Navigation -->
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -48,19 +53,6 @@
                     <button type="button" id="sidebarCollapse" class="btn">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mx-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="../index.html">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="../index.html">Recetas populares</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../index.html">Sobre Nosotros</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </nav>
 
@@ -72,16 +64,20 @@
                         <div class="row">
                             <!-- Nombre -->
                             <div class="col-md-6 mb-3">
-                                <label for="first-name" class="form-label">Nombre <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="first-name" placeholder="Ej: Juan" required readonly>
+                                <label for="first-name" class="form-label">Nombre <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="first-name" placeholder="Ej: Juan" required
+                                    readonly>
                                 <div class="invalid-feedback">
                                     Por favor ingresa tu nombre.
                                 </div>
                             </div>
                             <!-- Apellido -->
                             <div class="col-md-6 mb-3">
-                                <label for="last-name" class="form-label">Apellido <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="last-name" placeholder="Ej: Pérez" required readonly>
+                                <label for="last-name" class="form-label">Apellido <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="last-name" placeholder="Ej: Pérez" required
+                                    readonly>
                                 <div class="invalid-feedback">
                                     Por favor ingresa tu apellido.
                                 </div>
@@ -89,7 +85,8 @@
                             <!-- Edad -->
                             <div class="col-md-6 mb-3">
                                 <label for="age" class="form-label">Edad <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="age" placeholder="Ej: 25" min="18" max="120" required readonly>
+                                <input type="number" class="form-control" id="age" placeholder="Ej: 25" min="18"
+                                    max="120" required readonly>
                                 <div class="invalid-feedback">
                                     Por favor ingresa una edad válida (18-120).
                                 </div>
@@ -97,7 +94,8 @@
                             <!-- Teléfono -->
                             <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="Ej: +1234567890" readonly>
+                                <input type="tel" class="form-control" id="phone" placeholder="Ej: +1234567890"
+                                    readonly>
                                 <div class="invalid-feedback">
                                     Por favor ingresa un número de teléfono válido.
                                 </div>
@@ -105,15 +103,18 @@
                             <!-- Email -->
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="Ej: juan@example.com" required readonly>
+                                <input type="email" class="form-control" id="email" placeholder="Ej: juan@example.com"
+                                    required readonly>
                                 <div class="invalid-feedback">
                                     Por favor ingresa un email válido.
                                 </div>
                             </div>
                             <!-- Username -->
                             <div class="col-md-6 mb-3">
-                                <label for="username" class="form-label">Nombre de usuario <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="username" placeholder="Ej: juanperez" required readonly>
+                                <label for="username" class="form-label">Nombre de usuario <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="username" placeholder="Ej: juanperez"
+                                    required readonly>
                                 <div class="invalid-feedback">
                                     Por favor ingresa un nombre de usuario.
                                 </div>
@@ -144,6 +145,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ url_for('static', filename='js/usuario/MiPerfilApi.js') }}"></script>
     <script src="{{ url_for('static', filename='js/auth/AuthUsuario.js') }}"></script>
-<script src="{{ url_for('static', filename='js/usuario/scriptUserPage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/usuario/scriptUserPage.js') }}"></script>
+         
 </body>
+
 </html>
